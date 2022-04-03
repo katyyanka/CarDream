@@ -1,0 +1,10 @@
+label.required:after
+{
+    color: red;
+    content: " *";
+}
+
+.back{
+    background-image: url("back.jpg");
+    background-size: cover;
+}
