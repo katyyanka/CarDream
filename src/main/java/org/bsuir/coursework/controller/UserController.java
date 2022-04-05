@@ -24,12 +24,12 @@ public class UserController {
     public String findAll(Model model){
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
-        return "user-list";
+        return "user/user-list.html";
     }
 
     @GetMapping("/user-create")
     public String createUserForm(User user){
-        return "user-create";
+        return "user/user-create.html";
     }
 
     @PostMapping("/user-create")
@@ -48,7 +48,7 @@ public class UserController {
     public String updateUserForm(@PathVariable("id") String id, Model model){
         User user = userService.findById(id);
         model.addAttribute("user", user);
-        return "user-update";
+        return "user/user-update.html";
     }
 
     @PostMapping("/user-update")

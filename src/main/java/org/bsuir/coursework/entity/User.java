@@ -1,8 +1,6 @@
 package org.bsuir.coursework.entity;
 
 import lombok.Data;
-import lombok.Generated;
-import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -12,7 +10,7 @@ import java.sql.Date;
 @Table(name="user")
 public class User {
     @Id
-    private String email;
+    private String username;
     private String password;
     @Column(name = "Is_Admin")
     private Boolean isAdmin;
@@ -20,4 +18,5 @@ public class User {
     private String name;
     private Date birthday;
     private String phone;
+    private String role;
 }
