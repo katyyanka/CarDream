@@ -14,7 +14,6 @@ import java.util.Collection;
 @AllArgsConstructor
 public class MyUserDetails implements UserDetails {
 
-    @Autowired
     private User user;
 
     @Override

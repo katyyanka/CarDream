@@ -18,7 +18,6 @@ public class UserModel {
 
     public UserModel toModel(User user){
         username = user.getUsername();
-        isAdmin = user.getIsAdmin();
         lastname = getLastname();
         name = user.getName();
         birthday = user.getBirthday();

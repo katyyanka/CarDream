@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" type="image/png" th:href="@{../16.png}"/>
@@ -25,18 +26,30 @@
                 <th>Имя</th>
                 <th>Дата рождения</th>
                 <th>Телефон</th>
+
             </tr>
             </thead>
             <tbody>
             <tr th:each="user : ${users}">
                 <td th:text="${user.username}"></td>
-                <td th:text="${user.isAdmin} ? 'Администратор' : 'Пользователь'"/>
+                <td th:switch="${user.role}">
+                    <div th:case="'ROLE_ADMIN'">
+                       Администратор
+                    </div>
+                    <div th:case="'ROLE_USER'">
+                        Пользователь
+                    </div>
+                    <div th:case="'ROLE_DRIVER'">
+                        Водитель
+                    </div>
+                </td>
                 <td th:text="${user.lastname}"></td>
                 <td th:text="${user.name}"></td>
                 <td th:text="${user.birthday}"></td>
                 <td th:text="${user.phone}"></td>
-                <td><a th:href="@{user-update/{username}(username=${user.username})}">Редактировать</a></td>
-                <td><a th:href="@{user-delete/{username}(username=${user.username})}">Удалить</a></td>
+
+                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{user-update/{username}(username=${user.username})}">Редактировать</a></td>
+                <td  sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{user-delete/{username}(username=${user.username})}">Удалить</a></td>
             </tr>
             </tbody>
         </table>

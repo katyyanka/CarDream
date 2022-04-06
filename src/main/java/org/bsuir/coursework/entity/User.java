@@ -12,8 +12,6 @@ public class User {
     @Id
     private String username;
     private String password;
-    @Column(name = "Is_Admin")
-    private Boolean isAdmin;
     private String lastname;
     private String name;
     private Date birthday;
