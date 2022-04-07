@@ -12,9 +12,9 @@
 </head>
 <body  th:style="'background: url(back.jpg) no-repeat center center fixed;'" class="back" >
 <h1 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h1>
-<div style="position:absolute; top:0px; right:0px">
+<div style="position:absolute; top:1vh; right:1vw">
     <form th:action="@{/logout}" method="post">
-        <input type = "submit" value="Выйти" class="btn btn-outline-primary btn-lg">
+        <input type = "submit" value="Выйти" class="btn btn-light btn-lg">
     </form>
 </div>
 
