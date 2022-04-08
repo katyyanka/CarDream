@@ -1,7 +1,6 @@
 package org.bsuir.coursework.service;
 
 import org.bsuir.coursework.entity.User;
-import org.bsuir.coursework.model.UserModel;
 import org.bsuir.coursework.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

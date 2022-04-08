@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
 
     @GetMapping("/users")
     public String findAll(Model model){
@@ -36,6 +38,15 @@ public class UserController {
     public String createUser(User user){
         userService.saveUser(user);
         return "redirect:/users";
+    }
+
+    @GetMapping("/registration")
+    public String createRegistrationForm(User user){  return "registration"; }
+
+    @PostMapping("/registration")
+    public String registration(User user){
+        userService.saveUser(user);
+        return "registration";
     }
 
     @GetMapping("user-delete/{id}")
