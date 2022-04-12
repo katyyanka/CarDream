@@ -32,7 +32,7 @@ public class FuelController {
 
     @GetMapping("/fuel-create")
     public String createFuelForm(Fuel fuel){
-        return "fuel/fuel-create.html";
+        return "fuel/vehicle-create.html";
     }
 
     @PostMapping("/fuel-create")

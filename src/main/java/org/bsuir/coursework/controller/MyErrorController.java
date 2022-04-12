@@ -24,9 +24,9 @@ public class MyErrorController implements ErrorController {
             // display specific error page
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
                 return "errors/404";
-            } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+            } /*else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 return "errors/500";
-            } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
+            } */else if (statusCode == HttpStatus.FORBIDDEN.value()) {
                 return "errors/403";
             }
         }
