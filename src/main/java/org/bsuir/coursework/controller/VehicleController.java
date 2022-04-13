@@ -14,6 +14,7 @@ import java.util.List;
 
 @Controller
 public class VehicleController {
+
     private final VehicleService vehicleService;
 
     @Autowired
@@ -37,6 +38,6 @@ public class VehicleController {
     @PostMapping("/vehicle-create")
     public String createBus(Vehicle vehicle){
         vehicleService.saveVehicle(vehicle);
-        return "redirect:/buses";
+        return "redirect:/vehicles";
     }
 }
