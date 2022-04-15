@@ -4,56 +4,51 @@
     <meta charset="UTF-8">
     <title>Create user</title>
     <link rel="shortcut icon" type="image/png" th:href="@{16.png}"/>
-    <link th:href="@{styles/style.css}" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link th:href="@{styles/style.css}" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- Bootstrap Bundle JS (jsDelivr CDN) -->
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
 
 </head>
 <body class="back">
 
 <form action="#" th:action="@{/vehicle-create}" th:object="${vehicle}" method="post">
-   <div class="container">
-    <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-    <label for="username" class="required">Email</label><br>
-    <input type="email" th:field="*{username}" class="form-control" aria-describedby="emailHelp" id="username" placeholder="Email" required>
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    <div class="container">
+        <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
+            <label for="number" class="required">Номер</label><br>
+            <input type="text" th:field="*{number}" class="form-control" aria-describedby="numberHelp" id="number"
+                   placeholder="Номер" required>
+            <small id="numberHelp" class="form-text text-muted">Format: 1234TAX7</small>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
+            <label for="numberOfSets" class="required">Количество мест</label><br>
+            <input type="number" class="form-control" th:field="*{numberOfSets}" id="numberOfSets" value="16" min="1"
+                   max="30" step="1" required>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
+            <label for="brand" class="required">Бренд</label><br>
+            <input type="text" class="form-control" id="brand" th:field="*{brand}">
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
+            <label for="fuelConsumptionPer100Kilometers" class="required">Расход топлива в литрах на 100
+                километров</label><br>
+            <input type="number" class="form-control" th:field="*{fuelConsumptionPer100Kilometers}"
+                   id="fuelConsumptionPer100Kilometers" value="10" min="1" max="50" step="0,5" required>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
+            <label for="fuel">Должность</label><br>
+            <select class="form-select" th:field="*{fuel}" id="fuel">
+                <div th:each="fuel : ${fuels}">
+                    <option value="{fuel}" th:text="${fuel.name}"></option>
+                </div>
+            </select>
+        </div>
+        <p></p>
+        <input type="submit" value="Создать пользователя" class="btn btn-primary">
     </div>
-    <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-    <label for="password" class="required">Пароль</label><br>
-    <input type="password" class="form-control" th:field="*{password}" id="password" placeholder="Password" maxlength="30" minlength="6" required>
-        <small class="form-text text-muted"> From 6 to 30 symbols. More - better</small>
-    </div>
-       <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-    </div>
-       <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-    <label for="lastname" class="required">Фамилия</label><br>
-    <input type="text" class="form-control" id="lastname" th:field="*{lastname}">
-       </div>
-       <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-    <label for="name" class="required">Имя</label><br>
-    <input type="text" class="form-control" id="name" th:field="*{name}">
-       </div>
-       <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-    <label for="birthday" class="required">День рождения</label><br>
-    <input type="date" class="form-control" id="birthday" th:field="*{birthday}" value="2002-03-06"
-           min="1970-01-01" max="2022-12-31" required>
-       </div>
-       <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-    <label for="phone">Телефон</label><br>
-    <input type="tel" class="form-control" id="phone" th:field="*{phone}">
-       </div>
-       <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-           <label for="phone">Должность</label><br>
-           <select class="form-select" th:field="*{role}">
-               <option value="ROLE_USER">Пользователь</option>
-               <option value="ROLE_DRIVER">Водитель</option>
-               <option value="ROLE_ADMIN">Администратор</option>
-           </select>
-       </div>
-       <p></p>
-    <input type="submit" value="Создать пользователя" class="btn btn-primary">
-   </div>
 </form>
 </body>
 </html>

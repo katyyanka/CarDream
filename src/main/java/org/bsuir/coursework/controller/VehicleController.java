@@ -17,11 +17,13 @@ public class VehicleController {
 
     private final VehicleService vehicleService;
 
-    @Autowired
-    public VehicleController(VehicleService vehicleService) {
-        this.vehicleService = vehicleService;
-    }
+    private final FuelService fuelService;
 
+    @Autowired
+    public VehicleController(VehicleService vehicleService, FuelService fuelService) {
+        this.vehicleService = vehicleService;
+        this.fuelService = fuelService;
+    }
 
     @GetMapping("/vehicles")
     public String findAll(Model model){
@@ -31,7 +33,9 @@ public class VehicleController {
     }
 
     @GetMapping("/vehicle-create")
-    public String createBusForm(Vehicle vehicle){
+    public String createBusForm(Model model, Vehicle vehicle){
+        List<Fuel> fuels = fuelService.findAll();
+        model.addAttribute("fuels", fuels);
         return "vehicle/vehicle-create.html";
     }
 

@@ -6,7 +6,7 @@ label.required:after
 }
 
 .back{
-    background-image: url("../../images/back.jpg");
+    background-image: url("bg.jpg");
 }
 
 th.sorted[data-order="1"],

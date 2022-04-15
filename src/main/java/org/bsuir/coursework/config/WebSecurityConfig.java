@@ -1,10 +1,8 @@
 package org.bsuir.coursework.config;
 
 import org.bsuir.coursework.service.UserDetailsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -44,11 +42,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/images/**", "/js/**", "/styles/**",  "/" ).permitAll()
                 .antMatchers("/user-create", "/user-update/**", "/user-delete/**").hasRole("ADMIN")
-                .antMatchers("/users", "/registration").hasAnyRole("ADMIN", "DRIVER")
+                .antMatchers("/users").hasAnyRole("ADMIN", "DRIVER")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/registration", "/404", "/403","/js/**","/css/**").permitAll()
+                .antMatchers("/registration", "/404", "/403").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -59,4 +58,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedPage("/403")
                ;
     }
+
 }

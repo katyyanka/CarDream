@@ -1,23 +1,165 @@
-<!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org" >
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
+    <title>Туда-Сюда</title>
     <link rel="shortcut icon" type="image/png" th:href="@{16.png}"/>
-    <title>Hi :)</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <!-- Bootstrap Bundle JS (jsDelivr CDN) -->
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" th:href="@{styles/style.css}"/>
+    <noscript>
+        <link rel="stylesheet" th:href="@{styles/noscript.css}"/>
+    </noscript>
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/font-awesome.min.css">
+    <link rel="stylesheet" href="styles/owl.carousel.css">
+    <link rel="stylesheet" href="styles/owl.theme.default.min.css">
+    <link rel="stylesheet" href="styles/templatemo-style.css">
 </head>
-<body  th:style="'background: url(back.jpg) no-repeat center center fixed;'" class="back" >
-<h1 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h1>
-<div style="position:absolute; top:1vh; right:1vw">
-    <form th:action="@{/logout}" method="post">
-        <input type = "submit" value="Выйти" class="btn btn-light btn-lg">
-    </form>
-</div>
+<body>
 <div>
 
+    <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+        <div class="container">
+
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+
+                </button>
+
+                <a href="#" class="navbar-brand">Туда-Сюда</a>
+            </div>
+
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-nav-first">
+                    <li><a href="#home" class="smoothScroll">Главная</a></li>
+                    <li><a href="#about" class="smoothScroll">О нас</a></li>
+                    <li><a href="" class="smoothScroll">Поездки</a></li>
+
+                    <!--Admins functions-->
+                    <li  sec:authorize="hasRole('ROLE_ADMIN')"><a href="/users" class="smoothScroll">Пользователи</a></li >
+                    <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/fuels" class="smoothScroll">Топливо</a></li >
+                    <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/vehicles" class="smoothScroll">Транспорт</a></li >
+                    <!--Authorization and Logout-->
+                    <li th:if="${#httpServletRequest.remoteUser}==null"><a href="/login" class="smoothScroll">Войти</a>
+                    </li>
+                    <li th:unless="${#httpServletRequest.remoteUser}==null"> <a href="javascript: document.logoutForm.submit()" role="menuitem"> Выйти</a>
+                    </li>
+                    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                        <input hidden type="submit" value="Sign Out"/>
+                    </form>
+
+                </ul>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <section id="home">
+        <div class="row">
+
+            <div class="owl-carousel owl-theme home-slider">
+                <div class="item item-first">
+                    <div class="caption">
+                        <div class="container">
+                            <div class="col-md-6 col-sm-12">
+                                <h1>Лучшие в своём деле. Рядом уже 60 лет!</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item item-second">
+                    <div class="caption">
+                        <div class="container">
+                            <div class="col-md-6 col-sm-12">
+                                <h1>Выбирай Туда-Сюда для путешествий и деловых поездок!</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="about">
+        <div class="text-center">
+            <p>
+            <h1 style="color: black">На сайте быстрее и ещё удобнее!</h1>  </p>
+            <p>
+            <h3>Билеты на маршрутку сразу у вас в телефоне или ноутбуке, не нужно печать билет</h3> </p>
+            <p>
+            <h6><p><strong>Экономия</strong></p>
+
+                <p>Технологии в основе Туда-Сюда увеличивают эффективность работы наших партнёров. Поэтому мы можем
+                    делать
+                    цены ниже. </p><br>
+                <p><strong>Качество и контроль</strong></p>
+                <p> Мы контролируем работу водителей, состояние транспорта и работу сервиса. Мы неустанно трудимся над
+                    качеством услуг. </p><br>
+                <p><strong>Возврат без проблем</strong></p>
+                <p> Отмените бронирование, для этого не нужно никуда звонить или хуже того идти. Один клик и всё!</h6>
+            </p><br>
+        </div>
+    </section>
+    <!-- FOOTER -->
+    <footer id="footer">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-info">
+                        <div class="section-title">
+                            <h2>Штаб-квартира</h2>
+                        </div>
+                        <address>
+                            <p>Минск, ул. Бобруйская 6</p>
+                        </address>
+
+                        <div class="copyright-text">
+                            <p>Copyright &copy; 2022 Туда-Сюда</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-12 col-xl-8">
+                    <div class="footer-info">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2308.4660405062523!2d27.55272029780461!3d53.89035954851131!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46dbcfb3fca0fc7b%3A0xad6896889720702a!2z0JLQvtC60LfQsNC7!5e1!3m2!1sru!2sby!4v1650048392340!5m2!1sru!2sby"
+                                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-info">
+                        <div class="section-title">
+                            <h2>Контактная информация</h2>
+                        </div>
+                        <address>
+                            <p>+375 29 0000000 <br> +375 44 1111111</p>
+                            <p><a href="from.zyym@gmail.com">from.zyym@gmail.com</a></p>
+                        </address>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
 </div>
+
+<!-- Scripts -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/browser.min.js}"></script>
+<script th:src="@{/js/breakpoints.min.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+<!-- SCRIPTS -->
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/smoothscroll.js"></script>
+<script src="js/custom.js"></script>
+
 </body>
 </html>
