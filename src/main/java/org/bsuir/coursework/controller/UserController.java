@@ -34,19 +34,33 @@ public class UserController {
         return "user/user-create.html";
     }
 
+
     @PostMapping("/user-create")
     public String createUser(User user){
-        userService.saveUser(user);
+        try {
+            userService.saveUser(user);
+        } catch (Exception exception) {
+            return "redirect:/400";
+        }
         return "redirect:/users";
     }
 
     @GetMapping("/registration")
-    public String createRegistrationForm(User user){  return "registration"; }
+    public String createRegistrationForm(User user){  return "registration.html"; }
 
     @PostMapping("/registration")
     public String registration(User user){
-        userService.saveUser(user);
-        return "registration";
+        try {
+            userService.saveUser(user);
+            return "redirect:/thanks-page";
+        } catch (Exception e) {
+            return "redirect:/400";
+        }
+    }
+
+    @GetMapping("/thanks-page")
+    public String thank(){
+        return "errors/thank.html";
     }
 
     @GetMapping("user-delete/{id}")
@@ -64,7 +78,7 @@ public class UserController {
 
     @PostMapping("/user-update")
     public String updateUser(User user){
-        userService.saveUser(user);
+        userService.updateUser(user);
         return "redirect:/users";
     }
 }

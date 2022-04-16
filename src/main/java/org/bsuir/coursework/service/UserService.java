@@ -25,7 +25,13 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User saveUser(User user) {
+    public User saveUser(User user) throws Exception {
+        user.setPassword((new BCryptPasswordEncoder()).encode(user.getPassword()));
+        if (user.getRole()==null) user.setRole("ROLE_USER");
+        if (findById(user.getUsername())!=null) throw new Exception();
+        return userRepository.save(user);
+    }
+    public User updateUser(User user) {
         user.setPassword((new BCryptPasswordEncoder()).encode(user.getPassword()));
         if (user.getRole()==null) user.setRole("ROLE_USER");
         return userRepository.save(user);

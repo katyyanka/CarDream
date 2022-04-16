@@ -41,7 +41,7 @@
                     <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/fuels" class="smoothScroll">Топливо</a></li >
                     <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/vehicles" class="smoothScroll">Транспорт</a></li >
                     <!--Authorization and Logout-->
-                    <li th:if="${#httpServletRequest.remoteUser}==null"><a href="/login" class="smoothScroll">Войти</a>
+                    <li th:if="${#httpServletRequest.remoteUser}==null"><a th:href="@{/login}" class="smoothScroll">Войти</a>
                     </li>
                     <li th:unless="${#httpServletRequest.remoteUser}==null"> <a href="javascript: document.logoutForm.submit()" role="menuitem"> Выйти</a>
                     </li>
@@ -149,11 +149,6 @@
     </footer>
 </div>
 
-<!-- Scripts -->
-<script th:src="@{/js/jquery.min.js}"></script>
-<script th:src="@{/js/browser.min.js}"></script>
-<script th:src="@{/js/breakpoints.min.js}"></script>
-<script th:src="@{/js/main.js}"></script>
 <!-- SCRIPTS -->
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>

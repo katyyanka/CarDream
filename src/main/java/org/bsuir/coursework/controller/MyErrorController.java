@@ -3,6 +3,7 @@ package org.bsuir.coursework.controller;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.RequestDispatcher;
@@ -24,9 +25,9 @@ public class MyErrorController implements ErrorController {
             // display specific error page
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
                 return "errors/404";
-            } /*else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-                return "errors/500";
-            } */else if (statusCode == HttpStatus.FORBIDDEN.value()) {
+            } else if (statusCode == HttpStatus.BAD_REQUEST.value()) {
+                return "errors/400";
+            } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
                 return "errors/403";
             }
         }
@@ -34,4 +35,10 @@ public class MyErrorController implements ErrorController {
         // display generic error
         return "errors/error";
     }
+
+    @GetMapping("/400")
+    public String badRequestErrorPage(){
+        return "/errors/400.html";
+    }
+
 }
