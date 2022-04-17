@@ -40,6 +40,8 @@
                     <li  sec:authorize="hasRole('ROLE_ADMIN')"><a href="/users" class="smoothScroll">Пользователи</a></li >
                     <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/fuels" class="smoothScroll">Топливо</a></li >
                     <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/vehicles" class="smoothScroll">Транспорт</a></li >
+                    <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/places" class="smoothScroll">Локации</a></li >
+
                     <!--Authorization and Logout-->
                     <li th:if="${#httpServletRequest.remoteUser}==null"><a th:href="@{/login}" class="smoothScroll">Войти</a>
                     </li>
