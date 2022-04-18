@@ -1,59 +1,169 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <title>Create user</title>
-    <link rel="shortcut icon" type="image/png" th:href="@{16.png}"/>
-    <link th:href="@{styles/style.css}" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <!-- Bootstrap Bundle JS (jsDelivr CDN) -->
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
+    <title>Туда-Сюда</title>
+    <link rel="shortcut icon" type="image/png" href="16.png"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" th:href="@{styles/style.css}"/>
+    <noscript>
+        <link rel="stylesheet" th:href="@{styles/noscript.css}"/>
+    </noscript>
+    <script th:src="@{js/script_sorting.js}"></script>
+    <link rel="stylesheet" th:href="@{/styles/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/styles/templatemo-style.css}">
 </head>
 <body class="back">
+<!--NAVIGATION-->
+<div>
+    <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+        <div class="container">
 
-<form action="#" th:action="@{/user-create}" th:object="${user}" method="post">
-   <div class="container">
-    <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-    <label for="username" class="required">Email</label><br>
-    <input type="email" th:field="*{username}" class="form-control" aria-describedby="emailHelp" id="username" placeholder="Email" required>
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <div class="navbar-header">
+                <a href="../" class="navbar-brand">Туда-Сюда</a>
+            </div>
+
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-nav-first">
+                    <li><a href="./" class="smoothScroll">Главная</a></li>
+                    <li><a href="../" class="smoothScroll">О нас</a></li>
+                    <li><a href="" class="smoothScroll">Поездки</a></li>
+
+                    <!--Admins functions-->
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/users" class="smoothScroll">Пользователи</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/fuels" class="smoothScroll">Топливо</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/vehicles" class="smoothScroll">Транспорт</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_USER')"><a href="/" class="smoothScroll">Мои заказы</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_USER')"><a href="/" class="smoothScroll">Профиль</a>
+                    </li>
+                    <!--Authorization and Logout-->
+                    <li th:if="${#httpServletRequest.remoteUser}==null"><a href="/login" class="smoothScroll">Войти</a>
+                    </li>
+                    <li th:unless="${#httpServletRequest.remoteUser}==null"><a
+                            href="javascript: document.logoutForm.submit()" role="menuitem"> Выйти</a>
+                    </li>
+                    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                        <input hidden type="submit" value="Sign Out"/>
+                    </form>
+
+                </ul>
+
+            </div>
+
+        </div>
+    </section>
+</div>
+<div>
+    <form th:action="@{/user-create}" th:object="${user}" method="post">
+        <div class="container text-center" style="width: 80%;">
+            <p></p>
+            <div class="col-md-7 col-sm-7 col-xs-12 col-lg-7 margin_bottom_top">
+                <label for="username" class="required">Email</label><br>
+                <input type="email" th:field="*{username}" class="form-control" aria-describedby="emailHelp"
+                       id="username" placeholder="Email" required>
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                    else.</small>
+            </div>
+            </p><p>
+            <div class="col-md-7 col-sm-7 col-xs-12 col-lg-7 margin_bottom_top">
+                <label for="password" class="required">Пароль</label><br>
+                <input type="password" class="form-control" th:field="*{password}" id="password" placeholder="Password"
+                       maxlength="30" minlength="6" required>
+                <small class="form-text text-muted"> From 6 to 30 symbols. More - better</small>
+            </div>
+            </p><p>
+            <div class="col-md-7 col-sm-7 col-xs-12 col-lg-7 margin_bottom_top">
+                <label for="lastname" class="required">Фамилия</label><br>
+                <input type="text" class="form-control" id="lastname" th:field="*{lastname}">
+            </div>
+            </p><p>
+            <div class="col-md-7 col-sm-7 col-xs-12 col-lg-7 margin_bottom_top">
+                <label for="name" class="required">Имя</label><br>
+                <input type="text" class="form-control" id="name" th:field="*{name}">
+            </div>
+            </p><p>
+            <div class="col-md-7 col-sm-7 col-xs-12 col-lg-7 margin_bottom_top">
+                <label for="birthday" class="required">День рождения</label><br>
+                <input type="date" class="form-control" id="birthday" th:field="*{birthday}" value="2002-03-06"
+                       min="1970-01-01" max="2022-12-31" required>
+            </div>
+            </p><p>
+            <div class="col-md-7 col-sm-7 col-xs-12 col-lg-7 margin_bottom_top">
+                <label for="phone">Телефон</label><br>
+                <input type="tel" class="form-control" id="phone" th:field="*{phone}">
+            </div>
+            </p><p>
+            <div class="col-md-7 col-sm-7 col-xs-12 col-lg-7 margin_bottom_top">
+                <label for="phone">Должность</label><br>
+                <select class="form-select" th:field="*{role}">
+                    <option value="ROLE_USER">Пользователь</option>
+                    <option value="ROLE_DRIVER">Водитель</option>
+                    <option value="ROLE_ADMIN">Администратор</option>
+                </select>
+            </div>
+            </p><p></p>
+            <p></p>
+            <div class="col-md-7 col-sm-7 col-xs-12 col-lg-7 margin_bottom_top">
+                <input type="submit" value="Создать пользователя" class="btn btn-primary">
+            </div>
+            <p></p>
+        </div>
+    </form>
+</div>
+<!-- FOOTER-->
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-3 col-sm-6">
+                <div class="footer-info">
+                    <div class="section-title">
+                        <h2>Штаб-квартира</h2>
+                    </div>
+                    <address>
+                        <p>Минск, ул. Бобруйская 6</p>
+                    </address>
+
+                    <div class="copyright-text">
+                        <p>Copyright &copy; 2022 Туда-Сюда</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12 col-xl-8">
+                <div class="footer-info">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2308.4660405062523!2d27.55272029780461!3d53.89035954851131!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46dbcfb3fca0fc7b%3A0xad6896889720702a!2z0JLQvtC60LfQsNC7!5e1!3m2!1sru!2sby!4v1650048392340!5m2!1sru!2sby"
+                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="footer-info">
+                    <div class="section-title">
+                        <h2>Контактная информация</h2>
+                    </div>
+                    <address>
+                        <p>+375 29 0000000 <br> +375 44 1111111</p>
+                        <p><a href="from.zyym@gmail.com">from.zyym@gmail.com</a></p>
+                    </address>
+
+                </div>
+            </div>
+
+        </div>
     </div>
-    <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-    <label for="password" class="required">Пароль</label><br>
-    <input type="password" class="form-control" th:field="*{password}" id="password" placeholder="Password" maxlength="30" minlength="6" required>
-        <small class="form-text text-muted"> From 6 to 30 symbols. More - better</small>
-    </div>
-       <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-    </div>
-       <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-    <label for="lastname" class="required">Фамилия</label><br>
-    <input type="text" class="form-control" id="lastname" th:field="*{lastname}">
-       </div>
-       <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-    <label for="name" class="required">Имя</label><br>
-    <input type="text" class="form-control" id="name" th:field="*{name}">
-       </div>
-       <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-    <label for="birthday" class="required">День рождения</label><br>
-    <input type="date" class="form-control" id="birthday" th:field="*{birthday}" value="2002-03-06"
-           min="1970-01-01" max="2022-12-31" required>
-       </div>
-       <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-    <label for="phone">Телефон</label><br>
-    <input type="tel" class="form-control" id="phone" th:field="*{phone}">
-       </div>
-       <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-           <label for="phone">Должность</label><br>
-           <select class="form-select" th:field="*{role}">
-               <option value="ROLE_USER">Пользователь</option>
-               <option value="ROLE_DRIVER">Водитель</option>
-               <option value="ROLE_ADMIN">Администратор</option>
-           </select>
-       </div>
-       <p></p>
-    <input type="submit" value="Создать пользователя" class="btn btn-primary">
-   </div>
-</form>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/custom.js"></script>
+
 </body>
 </html>

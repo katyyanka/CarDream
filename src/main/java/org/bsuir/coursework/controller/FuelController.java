@@ -59,4 +59,10 @@ public class FuelController {
         fuelService.saveFuel(fuel);
         return "redirect:/fuels";
     }
+
+    @GetMapping("/fuel-price-increase")
+    public String increasePrice(){
+        fuelService.increasePrice();
+        return "redirect:/fuels";
+    }
 }

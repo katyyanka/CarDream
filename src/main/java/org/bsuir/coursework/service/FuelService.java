@@ -30,4 +30,8 @@ public class FuelService {
     public void deleteById(String id) {
         fuelRepository.deleteById(id);
     }
+
+    public int increasePrice(){
+        return fuelRepository.increasePrice();
+    }
 }

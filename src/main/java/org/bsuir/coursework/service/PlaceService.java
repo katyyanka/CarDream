@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static org.bsuir.coursework.helpers.parserStringToRadian.toRadian;
+
 @Service
 public class PlaceService {
     public static final int PLACES_PER_PAGE = 10;
@@ -30,9 +32,10 @@ public class PlaceService {
     }
 
     public Place savePlace(Place place) throws Exception {
-        if (findById(place.getName())!=null) throw new Exception();
+        if (findById(place.getName()) != null) throw new Exception();
         return placeRepository.save(place);
     }
+
     public Place updatePlace(Place place) {
         return placeRepository.save(place);
     }
@@ -41,9 +44,34 @@ public class PlaceService {
         placeRepository.deleteById(id);
     }
 
-    public  Page<Place> findPaginated(int pageNumber, int pageSize){
-        Pageable pageable = PageRequest.of(pageNumber-1, pageSize);
+    public Page<Place> findPaginated(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
 
         return this.placeRepository.findAll(pageable);
+    }
+
+    public static double distanceBetweenCities(Place first, Place second) {
+        Double w1 = toRadian(first.getWidth()),
+                l1 = toRadian(first.getLongitude()),
+                w2 = toRadian(second.getWidth()),
+                l2 = toRadian(second.getLongitude());
+        Integer EARTH_RADIUS = 6373;
+        Double angularDifference = angularDifference(w1, l1, w2, l2)*EARTH_RADIUS;
+
+        double coefficient = 1.25; // учтём, что по прямой никто не ездит
+
+        Double result = coefficient * EARTH_RADIUS *
+                Math.atan(
+                        Math.sqrt(
+                                Math.pow(Math.cos(w2) * Math.sin(l2 - l1), 2) +
+                                        Math.pow((Math.cos(w1) * Math.sin(w2) -
+                                                Math.sin(w1) * Math.cos(w2) * Math.cos(l2 - l1)), 2))
+                                / ((Math.sin(w1) * Math.sin(w2) + Math.cos(w1) * Math.cos(w2) * Math.cos(l2 - l1))));
+
+        return Math.ceil(result);
+    }
+
+    static Double angularDifference(double w1, double l1, double w2, double l2) {
+        return Math.acos(Math.sin(w1) * Math.sin(w2) + Math.cos(w1) * Math.cos(w2) * Math.cos(l2 - l1));
     }
 }

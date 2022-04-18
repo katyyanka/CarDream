@@ -19,8 +19,6 @@ public class User {
     private Date birthday;
     private String phone;
     private String role;
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Vehicle vehicle;
+    private Boolean status;
 
 }

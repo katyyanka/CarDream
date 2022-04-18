@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <title>Туда-Сюда</title>
-    <link rel="shortcut icon" type="image/png" th:href="@{16.png}"/>
+    <link rel="shortcut icon" type="image/png" href="16.png"/>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
     <link rel="stylesheet" th:href="@{styles/style.css}"/>
@@ -34,7 +34,7 @@
                 <ul class="nav navbar-nav navbar-nav-first">
                     <li><a href="#home" class="smoothScroll">Главная</a></li>
                     <li><a href="#about" class="smoothScroll">О нас</a></li>
-                    <li><a href="" class="smoothScroll">Поездки</a></li>
+                    <li><a href="/orders" class="smoothScroll">Поездки</a></li>
 
                     <!--Admins functions-->
                     <li  sec:authorize="hasRole('ROLE_ADMIN')"><a href="/users" class="smoothScroll">Пользователи</a></li >

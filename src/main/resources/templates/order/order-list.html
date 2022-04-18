@@ -11,8 +11,8 @@
         <link rel="stylesheet" th:href="@{styles/noscript.css}"/>
     </noscript>
     <script th:src="@{js/script_sorting.js}"></script>
-    <link rel="stylesheet" th:href="@{/styles/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/styles/templatemo-style.css}">
+    <link rel="stylesheet" th:href="@{/styles/bootstrap.min.css}">
 </head>
 <body class="back">
 <!--NAVIGATION-->
@@ -28,7 +28,7 @@
                 <ul class="nav navbar-nav navbar-nav-first">
                     <li><a href="./" class="smoothScroll">Главная</a></li>
                     <li><a href="../" class="smoothScroll">О нас</a></li>
-                    <li><a href="" class="smoothScroll">Поездки</a></li>
+                    <li><a href="/orders" class="smoothScroll">Поездки</a></li>
 
                     <!--Admins functions-->
                     <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/users" class="smoothScroll">Пользователи</a>
@@ -58,33 +58,47 @@
     </section>
 </div>
 <!--TABLE-->
-<div th:switch="${places}"  class="col-8 text-center">
-    <h2 th:case="null">Добавьте локации!</h2>
+<div th:switch="${orders}"  class="col-8 text-center">
+    <h2 th:case="null">Доступные рейсы отсутствуют!</h2>
     <div th:case="*">
-        <h2>Населённые пункты</h2>
+        <h2>Рейсы</h2>
+        <div th:if="${#httpServletRequest.remoteUser} == null">Авторизируйтесь и забронируйте место на интересующий рейс.</div>
         <table class="table table-striped table-hover table_sort" id="example">
             <thead>
             <tr>
-                <th>Название</th>
-                <th>Долгота</th>
-                <th>Ширина</th>
+                <th>Номер</th>
+                <th>Откуда</th>
+                <th>Куда</th>
+                <th>Когда?</th>
+                <th>Цена, BYN</th>
+                <th>Водитель</th>
+                <th>Автомобиль</th>
+                <th>Свободно мест</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="place : ${places}">
-                <td th:text="${place.name}"></td>
-                <td th:text="${place.longitude}"></td>
-                <td th:text="${place.width}"></td>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.idOrder}"></td>
+                <td th:text="${order.departure.name}"></td>
+                <td th:text="${order.arrive.name}"></td>
+                <td th:text="${order.datetime}"></td>
+                <td th:text="${order.price}"></td>
+                <td th:text="${order.user.username}"></td>
+                <td th:text="${order.vehicle.number}"></td>
+                <td th:text="${order.vehicle.numberOfSets - order.occupiedPlaces}"></td>
 
-                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{place-update/{name}(name=${place.name})}">
+                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{order-update/{idOrder}(idOrder=${order.idOrder})}">
                     Редактировать</a></td>
-                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{place-delete/{name}(name=${place.name})}">Удалить</a>
+                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{order-delete/{idOrder}(idOrder=${order.idOrder})}">Удалить</a>
+                </td>
+                <td sec:authorize="hasRole('ROLE_USER')"><a th:href="@{ticket-create/{idOrder}(idOrder=${order.idOrder})}">Забронировать место</a>
                 </td>
 
             </tbody>
         </table>
     </div>
-    <p><a href="/place-create">Добавить</a></p>
+    <p><td sec:authorize="hasRole('ROLE_ADMIN')"><a href="/order-create">Добавить</a></td></p>
+
     <!--PAGINATION-->
 
     <div th:if="${totalPages > 1}">
@@ -113,7 +127,7 @@
                             <a th:href="${pageUrlPrefix}+${i}" class="page-link">[[${i}]]</a>
                         </li>
                         <li>
-                        <a th:href="${pageUrlPrefix} + 6" class="page-link">...</a>
+                            <a th:href="${pageUrlPrefix} + 6" class="page-link">...</a>
                         </li>
                         <li th:each="i: ${#numbers.sequence(totalPages - 4, totalPages)}"
                             th:class="${currentPage} != i? 'page-item':'page-item-disabled'">
@@ -124,7 +138,7 @@
                     <th:block th:if="${currentPage > 5 && currentPage <= totalPages - 4}">
 
                         <li>
-                        <a th:href="${pageUrlPrefix} + ${currentPage - 5}" class="page-link">...</a>
+                            <a th:href="${pageUrlPrefix} + ${currentPage - 5}" class="page-link">...</a>
                         </li>
 
                         <li th:each="i: ${#numbers.sequence(currentPage - 4, currentPage + 4)}"
@@ -133,7 +147,7 @@
                         </li>
 
                         <li>
-                        <a th:href="${pageUrlPrefix} + ${currentPage + 5}" class="page-link">...</a>
+                            <a th:href="${pageUrlPrefix} + ${currentPage + 5}" class="page-link">...</a>
                         </li>
 
                     </th:block>
@@ -155,7 +169,114 @@
         </nav>
     </div>
 
+    <!-- старые заказы-->
 
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <h2 class="text-center">Архив рейсов</h2>
+        <table class="table table-striped table-hover table_sort" id="example">
+            <thead>
+            <tr>
+                <th>Номер</th>
+                <th>Откуда</th>
+                <th>Куда</th>
+                <th>Когда?</th>
+                <th>Цена, BYN</th>
+                <th>Водитель</th>
+                <th>Автомобиль</th>
+                <th>Свободно мест</th>
+                <th>Финансовый результат, BYN</th>
+                <th>Отчёт</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order, iter : ${old_orders}">
+                <td th:text="${order.idOrder}"></td>
+                <td th:text="${order.departure.name}"></td>
+                <td th:text="${order.arrive.name}"></td>
+                <td th:text="${order.datetime}"></td>
+                <td th:text="${order.price}"></td>
+                <td th:text="${order.user.username}"></td>
+                <td th:text="${order.vehicle.number}"></td>
+                <td th:text="${order.vehicle.numberOfSets - order.occupiedPlaces}"></td>
+                <td th:text="${@thymeCeil.ceil((order.price*order.occupiedPlaces) - (distances[iter.index] / 100 * order.vehicle.fuelConsumptionPer100Kilometers
+                * order.vehicle.fuel.price))}"></td>
+                <td th:text="Download"></td>
+
+            </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+    <!--PAGINATION-->
+
+    <div th:if="${totalPages > 1}">
+        <nav class="text-center">
+            <ul class="pagination justify-content-center flex-wrap" th:with="pageUrlPrefix = '/places/'">
+                <li th:class="${currentPage}>1? 'page-item':'page-item-disabled'">
+                    <a th:href="${pageUrlPrefix}+'1'" class="page-link">Первая</a>
+                </li>
+
+                <li th:if="${currentPage} > 1">
+                    <a th:href="${pageUrlPrefix} + ${currentPage - 1}" class="page-link">Предыдущая</a>
+                </li>
+                <li th:unless="${currentPage} > 1">
+                    <a th:href="${pageUrlPrefix} + ${totalPages}" class="page-link">Предыдущая</a>
+                </li>
+                <th:block th:if="${totalPages <= 10}">
+                    <li th:each="i: ${#numbers.sequence(1, totalPages)}">
+                        <a th:href="${pageUrlPrefix} + ${i}" class="page-link">[[${i}]]</a>
+                    </li>
+                </th:block>
+
+                <th:block th:if="${totalPages > 10}">
+                    <th:block th:if="${currentPage <= 5 || currentPage > totalPages - 4}">
+                        <li th:each="i: ${#numbers.sequence(1, 5)}"
+                            th:class="${currentPage}!= i? 'page-item':'page-item-disabled'">
+                            <a th:href="${pageUrlPrefix}+${i}" class="page-link">[[${i}]]</a>
+                        </li>
+                        <li>
+                            <a th:href="${pageUrlPrefix} + 6" class="page-link">...</a>
+                        </li>
+                        <li th:each="i: ${#numbers.sequence(totalPages - 4, totalPages)}"
+                            th:class="${currentPage} != i? 'page-item':'page-item-disabled'">
+                            <a th:href="${pageUrlPrefix} + ${i}" class="page-link">[[${i}]]</a>
+                        </li>
+                    </th:block>
+
+                    <th:block th:if="${currentPage > 5 && currentPage <= totalPages - 4}">
+
+                        <li>
+                            <a th:href="${pageUrlPrefix} + ${currentPage - 5}" class="page-link">...</a>
+                        </li>
+
+                        <li th:each="i: ${#numbers.sequence(currentPage - 4, currentPage + 4)}"
+                            th:class="${currentPage} != i ? 'page-item':'page-item-disabled'">
+                            <a th:href="${pageUrlPrefix} + ${i}" class="page-link">[[${i}]]</a>
+                        </li>
+
+                        <li>
+                            <a th:href="${pageUrlPrefix} + ${currentPage + 5}" class="page-link">...</a>
+                        </li>
+
+                    </th:block>
+
+                </th:block>
+
+                <li th:if="${currentPage} < ${totalPages}">
+                    <a th:href="${pageUrlPrefix} + ${currentPage + 1}" class="page-link">Следующая</a>
+                </li>
+                <li th:unless="${currentPage} < ${totalPages}">
+                    <a th:href="${pageUrlPrefix} + ${1}" class="page-link">Следующая</a>
+                </li>
+
+                <li>
+                    <a th:href="${pageUrlPrefix} + ${totalPages}" class="page-link">Последняя</a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
 </div>
 <!-- FOOTER-->
 <footer id="footer">
