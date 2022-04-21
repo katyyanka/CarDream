@@ -1,31 +1,141 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Create user</title>
-    <link rel="shortcut icon" type="image/png" href="16.png"/>
-    <link th:href="@{styles/style.css}" rel="stylesheet" />
-    <link rel="stylesheet" th:href="@{/styles/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/styles/templatemo-style.css}">
+    <title>Туда-Сюда</title>
+    <link th:href="@{styles/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{../styles/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{../styles/templatemo-style.css}">
 </head>
 <body class="back">
+<!--NAVIGATION-->
+<div>
+    <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+        <div class="container">
 
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+
+                </button>
+
+                <a href="#" class="navbar-brand">Туда-Сюда</a>
+            </div>
+
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-nav-first">
+                    <li><a href="#home" class="smoothScroll">Главная</a></li>
+                    <li><a href="#about" class="smoothScroll">О нас</a></li>
+                    <li><a href="/orders" class="smoothScroll">Поездки</a></li>
+
+                    <!--Admins functions-->
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/users" class="smoothScroll">Пользователи</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/fuels" class="smoothScroll">Топливо</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/vehicles" class="smoothScroll">Транспорт</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/places" class="smoothScroll">Локации</a></li>
+
+                    <!--Users functions-->
+                    <li sec:authorize="hasRole('ROLE_USER')"><a
+                            th:href="@{/user-tickets/{username}(username=${#httpServletRequest.remoteUser})}"
+                            class="smoothScroll">Мои билеты</a></li>
+
+                    <!--Authorization and Logout-->
+                    <li th:if="${#httpServletRequest.remoteUser}==null"><a th:href="@{/login}" class="smoothScroll">Войти</a>
+                    </li>
+                    <li th:unless="${#httpServletRequest.remoteUser}==null"><a
+                            href="javascript: document.logoutForm.submit()" role="menuitem"> Выйти</a>
+                    </li>
+                    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                        <input hidden type="submit" value="Sign Out"/>
+                    </form>
+
+                </ul>
+
+            </div>
+
+        </div>
+    </section>
+</div>
+<br>
 <!--form-->
 <form action="#" th:action="@{/fuel-create}" th:object="${fuel}" method="post">
-   <div class="container">
+    <div class="container">
+        <label for="name" class="required col-md-12 col-sm-12 col-xs-12 col-lg-12 text-center">Название</label>
+        <div class="form-group col-md-12 col-sm-12 col-xs-12 col-lg-12"></div>
 
-       <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-    <label for="name" class="required">Название</label><br>
-    <input type="text" class="form-control" id="name" th:field="*{name}">
-       </div>
-       <div class="col-md-6 col-sm-6 col-xs-12 col-lg-4">
-    <label for="price" class="required">Стоимость</label><br>
-    <input type="number" class="form-control" id="price" th:field="*{price}" min="1" max="5" step="0.1">
-       </div>
-       <p></p>
-    <input type="submit" value="Создать топливо" class="btn btn-primary">
-   </div>
+        <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
+        <div class="form-group col-md-4 col-sm-4 col-xs-12 col-lg-4">
+            <input type="text" class="col-md-4 col-sm-4 col-xs-12 col-lg-4 form-control" id="name" th:field="*{name}"
+                   required>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
+
+        <label for="price" class="required col-md-12 col-sm-12 col-xs-12 col-lg-12 text-center">Стоимость</label>
+
+        <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
+        <div class="form-group col-md-4 col-sm-4 col-xs-12 col-lg-4">
+            <input type="number" class="col-md-4 col-sm-4 col-xs-12 col-lg-4 form-control " id="price"
+                   th:field="*{price}"
+                   min="1" max="5" step="0.1" required>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
+
+        <div class="form-group col-md-12 col-sm-12 col-xs-12 col-lg-12"><br>
+            <p></p></div>
+
+        <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
+                <input type="submit" value="Добавить топливо"
+                       class="btn btn-primary col-md-4 col-sm-4 col-xs-12 col-lg-4">\
+        <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
+
+        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12"><br><br></div>
+
+    </div>
 </form>
+<!--FOOTER-->
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-3 col-sm-6">
+                <div class="footer-info">
+                    <div class="section-title">
+                        <h2>Штаб-квартира</h2>
+                    </div>
+                    <address>
+                        <p>Минск, ул. Бобруйская 6</p>
+                    </address>
+
+                    <div class="copyright-text">
+                        <p>Copyright &copy; 2022 Туда-Сюда</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12 col-xl-8">
+                <div class="footer-info">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2308.4660405062523!2d27.55272029780461!3d53.89035954851131!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46dbcfb3fca0fc7b%3A0xad6896889720702a!2z0JLQvtC60LfQsNC7!5e1!3m2!1sru!2sby!4v1650048392340!5m2!1sru!2sby"
+                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="footer-info">
+                    <div class="section-title">
+                        <h2>Контактная информация</h2>
+                    </div>
+                    <address>
+                        <p>+375 29 0000000 <br> +375 44 1111111</p>
+                        <p><a href="from.zyym@gmail.com">from.zyym@gmail.com</a></p>
+                    </address>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</footer>
 </body>
 </html>
