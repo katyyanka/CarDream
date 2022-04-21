@@ -7,13 +7,16 @@ import javax.persistence.*;
 @Entity
 @Data
 @Table(name = "ticket")
-@IdClass(TicketId.class)
 public class Ticket {
     @Id
+    @Column(name= "id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    Integer id;
+
     @ManyToOne
     @JoinColumn(name="user_email")
     User user;
-    @Id
+
     @ManyToOne
     @JoinColumn(name="order_id")
     Order order;

@@ -3,13 +3,13 @@ package org.bsuir.coursework.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Data
 @Entity
-@Table (name = "order")
-public class Order implements Serializable {
+@Table (name = "orders")
+public class Order {
     @Id
     @Column(name= "id_ORDER")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -31,4 +31,6 @@ public class Order implements Serializable {
     Place departure;
     @Column(name="occupied_places")
     Integer occupiedPlaces;
+    @OneToMany(mappedBy = "order")
+    transient Set<Ticket> tickets;
 }

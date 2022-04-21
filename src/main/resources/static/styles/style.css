@@ -1,6 +1,17 @@
 #myInput {
     width: 95%;
-    background-image: url('../images/searching.png'); /* Добавить значок поиска для ввода */
+    background-image: url('/images/searching.png'); /* Добавить значок поиска для ввода */
+    background-position: 10px 12px; /* Расположите значок поиска */
+    background-repeat: no-repeat; /* Не повторяйте изображение значка */
+    font-size: 16px; /* Увеличить размер шрифта */
+    padding: 12px 20px 12px 40px; /* Добавить немного отступов */
+    border: 1px solid #ddd; /* Добавить серую границу */
+    margin-bottom: 12px; /* Добавить некоторое пространство под входом */
+}
+
+.myInput {
+    width: 95%;
+    background-image: url('/images/searching.png'); /* Добавить значок поиска для ввода */
     background-position: 10px 12px; /* Расположите значок поиска */
     background-repeat: no-repeat; /* Не повторяйте изображение значка */
     font-size: 16px; /* Увеличить размер шрифта */

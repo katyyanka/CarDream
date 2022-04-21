@@ -7,20 +7,19 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
     <link rel="stylesheet" th:href="@{../styles/style.css}"/>
+
     <script th:src="@{../js/script_sorting.js}"></script>
     <script th:src="@{../js/searching.js}"></script>
     <link rel="stylesheet" th:href="@{/styles/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/styles/templatemo-style.css}">
 </head>
 <body class="back">
+<!--NAVIGATION-->
 <div>
     <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
         <div class="container">
 
             <div class="navbar-header">
-                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                </button>
-
                 <a href="../" class="navbar-brand">Туда-Сюда</a>
             </div>
 
@@ -57,58 +56,97 @@
         </div>
     </section>
 </div>
+<div>
+    <div th:if="${#httpServletRequest.remoteUser}==${username}">
+        <div class="text-center">
+            <h4 th:inline="text">Добро пожаловать, [[${#httpServletRequest.remoteUser}]] !</h4>
+        </div>
 
-<div class="text-center">
-    <h4 th:inline="text">Добро пожаловать, [[${#httpServletRequest.remoteUser}]] !</h4>
-</div>
+        <div th:switch="${tickets}">
+            <div class="text-center">
+                <input type="text" id="myInput" class="myInput" onkeyup="searchFunction()" placeholder="Поиск...">
+            </div>
 
-<div th:switch="${tickets}">
-    <div class="text-center">
-        <input type="text" id="myInput" onkeyup="searchFunction()" placeholder="Поиск...">
+            <h2 th:case="null">Билеты не найдены!</h2>
+            <div th:case="*">
+                <div class="text-center">
+                    <h3 sec:authorize="hasRole('ROLE_USER')">Билеты пользователя [[${username}]] </h3></div>
+                <p></p>
+
+                <table class="table table-striped table-hover table_sort" id="example">
+                    <thead>
+                    <tr>
+                        <th>№ Билета</th>
+                        <th>№ Рейса</th>
+                        <th>Место</th>
+                        <th>Откуда</th>
+                        <th>Куда</th>
+                        <th>Время</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="ticket : ${tickets}">
+                        <td th:text="${ticket.id}"></td>
+                        <td th:text="${ticket.order.idOrder}"></td>
+                        <td th:text="${ticket.set}"></td>
+                        <td th:text="${ticket.order.departure.name}"></td>
+                        <td th:text="${ticket.order.arrive.name}"></td>
+                        <td th:text="${ticket.order.datetime}"></td>
+
+                        <td sec:authorize="hasRole('ROLE_USER')"><a
+                                href="#">Отменить</a></td>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center"></div>
+        </div>
+        <dib th:switch="${oldTickets}">
+            <h2 th:case="null">Архив заказ пуст</h2>
+            <div th:case="*">
+                <p></p>
+                <div class="text-center">
+                    <input type="text" id="myInput2" class="myInput" onkeyup="searchFunction2()" placeholder="Поиск в архиве...">
+                </div>
+                <div class="text-center">
+                    <h3 sec:authorize="hasRole('ROLE_USER')">Архив билетов пользователя [[${username}]] </h3>
+                </div>
+                <table class="table table-striped table-hover table_sort" id="example2">
+                    <thead>
+                    <tr>
+                        <th>№ Билета</th>
+                        <th>№ Рейса</th>
+                        <th>Место</th>
+                        <th>Откуда</th>
+                        <th>Куда</th>
+                        <th>Время</th>
+                        <th>Комментарий</th>
+                        <th>Оценка</th>
+                        <th>Явка</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="ticket : ${oldTickets}">
+                        <td th:text="${ticket.id}"></td>
+                        <td th:text="${ticket.order.idOrder}"></td>
+                        <td th:text="${ticket.set}"></td>
+                        <td th:text="${ticket.order.departure.name}"></td>
+                        <td th:text="${ticket.order.arrive.name}"></td>
+                        <td th:text="${ticket.order.datetime}"></td>
+                        <td th:text="${ticket.comment}"></td>
+                        <td th:text="${ticket.mark}"></td>
+                        <td th:if="${ticket.status}">Явка</td>
+                        <td th:unless="${ticket.status}">Неявка</td>
+
+                    </tbody>
+                </table>
+            </div>
+        </dib>
     </div>
-
-    <h2 th:case="null">Билеты не найдены!</h2>
-    <div th:case="*">
-
-        <h2 sec:authorize="hasRole('ROLE_ADMIN')">Билеты рейса №[[${id}]] </h2>
-        <table class="table table-striped table-hover table_sort" id="example">
-            <thead>
-            <tr>
-                <th>№ Билета</th>
-                <th>№ Рейса</th>
-                <th>Пользователь</th>
-                <th>Место</th>
-                <th>Статус</th>
-                <th>Комментарий</th>
-                <th>Оценка</th>
-
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="ticket : ${tickets}">
-                <td th:text="${ticket.id}"></td>
-
-                <td th:text="${ticket.order.idOrder}"></td>
-                <td th:text="${ticket.user.username}"></td>
-                <td th:text="${ticket.set}"></td>
-                <td th:if="${ticket.status}">Явка</td>
-                <td th:unless="${ticket.status}">Неявка</td>
-                <td th:text="${ticket.comment}"></td>
-                <td th:text="${ticket.mark}"></td>
-
-                <td sec:authorize="hasRole('ROLE_ADMIN')"><a
-                        href="#">Отменить</a></td>
-                <td sec:authorize="hasRole('ROLE_USER')"><a
-                        href="#">Отменить</a></td>
-
-            </tbody>
-        </table>
-    </div>
-    <div class="text-center">
-        <p><a href="/ticket-create">Добавить</a></p></div>
-
 </div>
-
+<!-- FOOTER-->
 <footer id="footer">
     <div class="container">
         <div class="row">
@@ -152,18 +190,12 @@
         </div>
     </div>
 </footer>
+
 <!-- SCRIPTS -->
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/owl.carousel.min.js"></script>
-<script src="js/smoothscroll.js"></script>
 <script src="js/custom.js"></script>
-<script src="path-to/js/bootstrap-select.min.js"></script>
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-
-<!-- (Optional) Latest compiled and minified JavaScript translation files -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
 
 </body>
 </html>

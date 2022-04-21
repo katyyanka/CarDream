@@ -5,6 +5,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Set;
 
 @Data
 @Entity
@@ -20,5 +21,7 @@ public class User {
     private String phone;
     private String role;
     private Boolean status;
+    @OneToMany(mappedBy = "user")
+    transient Set<Ticket> tickets;
 
 }

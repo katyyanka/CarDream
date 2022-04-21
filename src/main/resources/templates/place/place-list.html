@@ -10,6 +10,7 @@
     <noscript>
         <link rel="stylesheet" th:href="@{styles/noscript.css}"/>
     </noscript>
+    <script th:src="@{js/searching.js}"></script>
     <script th:src="@{js/script_sorting.js}"></script>
     <link rel="stylesheet" th:href="@{/styles/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/styles/templatemo-style.css}">
@@ -59,8 +60,13 @@
 </div>
 <!--TABLE-->
 <div th:switch="${places}"  class="col-8 text-center">
+    <div class="text-center">
+        <p></p>
+        <input type="text" id="myInput" class="myInput" onkeyup="searchFunction()" placeholder="Поиск...">
+    </div>
     <h2 th:case="null">Добавьте локации!</h2>
     <div th:case="*">
+
         <h2>Населённые пункты</h2>
         <table class="table table-striped table-hover table_sort" id="example">
             <thead>
