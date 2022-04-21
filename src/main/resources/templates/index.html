@@ -44,7 +44,6 @@
 
                     <!--Users functions-->
                     <li  sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/user-tickets/{username}(username=${#httpServletRequest.remoteUser})}" class="smoothScroll">Мои билеты</a></li >
-                    <li   sec:authorize="hasRole('ROLE_USER')"><a href="/profile" class="smoothScroll">Профиль</a></li >
 
                     <!--Authorization and Logout-->
                     <li th:if="${#httpServletRequest.remoteUser}==null"><a th:href="@{/login}" class="smoothScroll">Войти</a>
