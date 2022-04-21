@@ -14,8 +14,9 @@ public class Vehicle {
     @Column(name="NUMBER_OF_SETS")
     private int numberOfSets;
     private String brand;
-    @Column(name="FUEL_CONSUMPTION_PER_100_KILOMETERS")
+    @Column(name="FUEL_CONSUMPTION_PER_100KM")
     private int fuelConsumptionPer100Kilometers;
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "DRIVER_EMAIL", referencedColumnName = "USERNAME")
     private User user;

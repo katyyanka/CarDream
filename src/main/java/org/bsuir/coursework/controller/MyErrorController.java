@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
-@Controller
+//@Controller
 public class MyErrorController implements ErrorController {
 
     @RequestMapping("/error")
@@ -25,9 +25,9 @@ public class MyErrorController implements ErrorController {
             // display specific error page
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
                 return "errors/404";
-            } else if (statusCode == HttpStatus.BAD_REQUEST.value()) {
+            } /*else if (statusCode == HttpStatus.BAD_REQUEST.value()) {
                 return "errors/400";
-            } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
+            }*/ else if (statusCode == HttpStatus.FORBIDDEN.value()) {
                 return "errors/403";
             }
         }
@@ -36,9 +36,9 @@ public class MyErrorController implements ErrorController {
         return "errors/error";
     }
 
-    @GetMapping("/400")
+   /* @GetMapping("/400")
     public String badRequestErrorPage(){
         return "/errors/400.html";
-    }
+    }*/
 
 }

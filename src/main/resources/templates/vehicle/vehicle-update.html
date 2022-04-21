@@ -4,16 +4,14 @@
 <head>
     <title>Туда-Сюда</title>
     <meta charset="utf-8"/>
-    <link rel="stylesheet" th:href="@{styles/style.css}"/>
-    <noscript>
-        <link rel="stylesheet" th:href="@{styles/noscript.css}"/>
-    </noscript>
-    <script th:src="@{js/script_sorting.js}"></script>
-    <link rel="stylesheet" th:href="@{/styles/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/styles/templatemo-style.css}">
+    <link rel="stylesheet" th:href="@{../styles/style.css}"/>
+    <script th:src="@{../js/script_sorting.js}"></script>
+    <link rel="stylesheet" th:href="@{../styles/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{../styles/templatemo-style.css}">
 </head>
 <body>
 <!--NAVIGATION-->
+
 <div>
     <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
         <div class="container">
@@ -64,7 +62,7 @@
 </div>
 <!--Form-->
 
-<form action="#" th:action="@{/vehicle-create}" th:object="${vehicle}" method="post">
+<form action="#" th:action="@{/vehicle-update}" th:object="${vehicle}" method="post">
     <div class="container">
 
         <div class="form-group col-md-12 col-sm-12 col-xs-12 col-lg-12"><br>
@@ -76,17 +74,15 @@
         <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
         <div class="form-group col-md-4 col-sm-4 col-xs-12 col-lg-4">
             <input type="text" class="col-md-4 col-sm-4 col-xs-12 col-lg-4 form-control" id="name" th:field="*{number}"
-                   pattern="[0-9]{4}TAX[1-7]" required>
+                   pattern="[0-9]{4}TAX[1-7]" required readonly>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
-        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 text-center"><small>Формат: 1234TAX7</small></div>
-
 
         <label for="width" class="required col-md-12 col-sm-12 col-xs-12 col-lg-12 text-center">Бренд</label>
         <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
         <div class="form-group col-md-4 col-sm-4 col-xs-12 col-lg-4">
             <input type="text" class="col-md-4 col-sm-4 col-xs-12 col-lg-4 form-control " id="width"
-                 th:field="*{brand}"  required>
+                   th:field="*{brand}"  required>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
 
@@ -125,6 +121,7 @@
         <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
         <div class="form-group col-md-4 col-sm-4 col-xs-12 col-lg-4">
             <select class="form-select" th:field="*{user}">
+                <option th:value="*{user.username}" th:text="*{user.username}" selected></option>
                 <div th:each="us : ${users}">
                     <option th:value="${us.username}" th:text="${us.username}" selected></option>
                 </div>
@@ -136,14 +133,10 @@
 
         <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
 
-        <div th:if="${#lists.size(users)}==0 or ${#lists.size(fuels)}==0">
-        <input type="submit" value="Добавить" disabled
-               class="btn btn-primary col-md-4 col-sm-4 col-xs-12 col-lg-4">
-        </div>
-        <div th:unless="${#lists.size(users)}==0 or ${#lists.size(fuels)}==0">
-            <input type="submit" value="Добавить"
+
+            <input type="submit" value="Обновить"
                    class="btn btn-primary col-md-4 col-sm-4 col-xs-12 col-lg-4">
-        </div>
+
 
         <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
 
@@ -198,10 +191,10 @@
 </footer>
 
 <!-- SCRIPTS -->
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/custom.js"></script>
+<script src="../js/jquery.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/owl.carousel.min.js"></script>
+<script src="../js/custom.js"></script>
 
 </body>
 </html>

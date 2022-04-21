@@ -6,10 +6,10 @@
     <link rel="shortcut icon" type="image/png" href="16.png"/>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-    <link rel="stylesheet" th:href="@{../styles/style.css}"/>
-    <script th:src="@{../js/script_sorting.js}"></script>
-    <link rel="stylesheet" th:href="@{../styles/templatemo-style.css}">
-    <link rel="stylesheet" th:href="@{../styles/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/styles/style.css}"/>
+    <script th:src="@{/js/script_sorting.js}"></script>
+    <link rel="stylesheet" th:href="@{/styles/templatemo-style.css}">
+    <link rel="stylesheet" th:href="@{/styles/bootstrap.min.css}">
 </head>
 <body class="back">
 <!--NAVIGATION-->
@@ -61,10 +61,9 @@
             <p></p>
             <div class="col-md-7 col-sm-7 col-xs-12 col-lg-7 margin_bottom_top">
                 <label for="username" class="required">Email</label><br>
-                <input type="email" th:field="*{username}" class="form-control" aria-describedby="emailHelp"
+                <input type="email" readonly th:field="*{username}" class="form-control" aria-describedby="emailHelp"
                        id="username" placeholder="Email" required>
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
-                    else.</small>
+                <small id="emailHelp" class="form-text text-muted"></small>
             </div>
             </p><p>
             <div class="col-md-7 col-sm-7 col-xs-12 col-lg-7 margin_bottom_top">
@@ -103,17 +102,10 @@
                     <option value="ROLE_ADMIN">Администратор</option>
                 </select>
             </div>
-            <div class="col-md-7 col-sm-7 col-xs-12 col-lg-7 margin_bottom_top">
-                <label for="phone">Статус</label><br>
-                <select class="form-select" th:field="*{status}">
-                    <option value="true">Активный</option>
-                    <option value="false">Заблокирован</option>
-                </select>
-            </div>
             </p><p></p>
             <p></p><p>
             <div class="col-md-7 col-sm-7 col-xs-12 col-lg-7 margin_bottom_top">
-                <input type="submit" value="Создать пользователя" class="btn btn-primary">
+                <input type="submit" value="Обновить" class="btn btn-primary">
             </div></p>
             <p></p>
         </div>

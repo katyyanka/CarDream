@@ -1,15 +1,14 @@
 package org.bsuir.coursework.entity;
 
 import lombok.Data;
-import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Set;
 
 @Data
 @Entity
-@ToString
 @Table(name="user")
 public class User {
     @Id
@@ -20,7 +19,6 @@ public class User {
     private Date birthday;
     private String phone;
     private String role;
-    private Boolean status;
     @OneToMany(mappedBy = "user")
     transient Set<Ticket> tickets;
 

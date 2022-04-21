@@ -88,7 +88,6 @@
                 <th>Имя</th>
                 <th>Дата рождения</th>
                 <th>Телефон</th>
-                <th>Статус</th>
             </tr>
             </thead>
             <tbody>
@@ -108,9 +107,9 @@
                 <td th:text="${user.lastname}"></td>
                 <td th:text="${user.name}"></td>
                 <td th:text="${user.birthday}"></td>
-                <td th:text="${user.phone}"></td>
+                <td th:text="${user.phone}"></td><!--
                 <td th:if="${user.status}">Активный</td>
-                <td th:unless="${user.status}">Заблокирован</td>
+                <td th:unless="${user.status}">Заблокирован</td>-->
 
                 <td sec:authorize="hasRole('ROLE_ADMIN')"><a
                         th:unless="${user.username} == ${#httpServletRequest.remoteUser}"

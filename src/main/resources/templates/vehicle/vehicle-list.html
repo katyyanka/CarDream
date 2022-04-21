@@ -1,63 +1,80 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
+    <title>Туда-Сюда</title>
     <link rel="shortcut icon" type="image/png" href="16.png"/>
-    <title>Users</title>
-    <link th:href="@{styles/style.css}" rel="stylesheet" />
-    <link  href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <!-- Bootstrap Bundle JS (jsDelivr CDN) -->
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="styles/style.css"/>
+    <noscript>
+        <link rel="stylesheet" href="styles/noscript.css"/>
+    </noscript>
     <script th:src="@{js/script_sorting.js}"></script>
+    <script th:src="@{js/searching.js}"></script>
+    <link rel="stylesheet" href="styles/templatemo-style.css">
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
 </head>
 <body class="back">
-<section class="navbar custom-navbar navbar-fixed-top" role="navigation">
-    <div class="container">
+<div>
+    <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+        <div class="container">
 
-        <div class="navbar-header">
-            <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 
-            </button>
+                </button>
 
-            <a href="#" class="navbar-brand">Туда-Сюда</a>
+                <a href="#" class="navbar-brand">Туда-Сюда</a>
+            </div>
+
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-nav-first">
+                    <li><a href="#home" class="smoothScroll">Главная</a></li>
+                    <li><a href="#about" class="smoothScroll">О нас</a></li>
+                    <li><a href="/orders" class="smoothScroll">Поездки</a></li>
+
+                    <!--Admins functions-->
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/users" class="smoothScroll">Пользователи</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/fuels" class="smoothScroll">Топливо</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/vehicles" class="smoothScroll">Транспорт</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/places" class="smoothScroll">Локации</a></li>
+
+                    <!--Users functions-->
+                    <li sec:authorize="hasRole('ROLE_USER')"><a
+                            th:href="@{/user-tickets/{username}(username=${#httpServletRequest.remoteUser})}"
+                            class="smoothScroll">Мои билеты</a></li>
+
+                    <!--Authorization and Logout-->
+                    <li th:if="${#httpServletRequest.remoteUser}==null"><a th:href="@{/login}" class="smoothScroll">Войти</a>
+                    </li>
+                    <li th:unless="${#httpServletRequest.remoteUser}==null"><a
+                            href="javascript: document.logoutForm.submit()" role="menuitem"> Выйти</a>
+                    </li>
+                    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                        <input hidden type="submit" value="Sign Out"/>
+                    </form>
+
+                </ul>
+
+            </div>
+
         </div>
+    </section>
+</div>
+<br>
+<div class="text-center">
+    <h2 th:inline="text">Добро пожаловать, [[${#httpServletRequest.remoteUser}]] !</h2>
+</div>
 
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-nav-first">
-                <li><a href="#home" class="smoothScroll">Главная</a></li>
-                <li><a href="#about" class="smoothScroll">О нас</a></li>
-                <li><a href="/orders" class="smoothScroll">Поездки</a></li>
-
-                <!--Admins functions-->
-                <li  sec:authorize="hasRole('ROLE_ADMIN')"><a href="/users" class="smoothScroll">Пользователи</a></li >
-                <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/fuels" class="smoothScroll">Топливо</a></li >
-                <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/vehicles" class="smoothScroll">Транспорт</a></li >
-                <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/places" class="smoothScroll">Локации</a></li >
-
-                <!--Users functions-->
-                <li  sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/user-tickets/{username}(username=${#httpServletRequest.remoteUser})}" class="smoothScroll">Мои билеты</a></li >
-
-                <!--Authorization and Logout-->
-                <li th:if="${#httpServletRequest.remoteUser}==null"><a th:href="@{/login}" class="smoothScroll">Войти</a>
-                </li>
-                <li th:unless="${#httpServletRequest.remoteUser}==null"> <a href="javascript: document.logoutForm.submit()" role="menuitem"> Выйти</a>
-                </li>
-                <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-                    <input hidden type="submit" value="Sign Out"/>
-                </form>
-
-            </ul>
-
-        </div>
-
-    </div>
-</section>
-<h1 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h1>
-<div th:switch="${vehicles}" >
-    <h2 th:case="null">No vehicles found!</h2>
+<div th:switch="${vehicles}">
+    <h2 th:case="null">Нет транспортных средств!</h2>
     <div th:case="*">
-        <h2>Трансопртные средства</h2>
+        <div class="text-center">
+            <h2>Транспортные средства</h2>
+        </div>
         <table class="table table-striped table-hover table_sort" id="example">
             <thead>
             <tr>
@@ -77,11 +94,66 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                 <td th:text="${vehicle.fuelConsumptionPer100Kilometers}"></td>
                 <td th:text="${vehicle.fuel.name}"></td>
                 <td th:text="${vehicle.user.username}"></td>
+
+                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{../vehicle-update/{name}(name=${vehicle.number})}">
+                    Редактировать</a></td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{../vehicle-delete/{name}(name=${vehicle.number})}">Удалить</a>
+                </td>
             </tr>
             </tbody>
         </table>
     </div>
-    <p><a href="/vehicle-create">Добавить</a></p>
+    <div class="text-center">
+        <p><a href="/vehicle-create">Добавить</a></p>
+    </div>
+
 </div>
+
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-3 col-sm-6">
+                <div class="footer-info">
+                    <div class="section-title">
+                        <h2>Штаб-квартира</h2>
+                    </div>
+                    <address>
+                        <p>Минск, ул. Бобруйская 6</p>
+                    </address>
+
+                    <div class="copyright-text">
+                        <p>Copyright &copy; 2022 Туда-Сюда</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12 col-xl-8">
+                <div class="footer-info">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2308.4660405062523!2d27.55272029780461!3d53.89035954851131!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46dbcfb3fca0fc7b%3A0xad6896889720702a!2z0JLQvtC60LfQsNC7!5e1!3m2!1sru!2sby!4v1650048392340!5m2!1sru!2sby"
+                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="footer-info">
+                    <div class="section-title">
+                        <h2>Контактная информация</h2>
+                    </div>
+                    <address>
+                        <p>+375 29 0000000 <br> +375 44 1111111</p>
+                        <p><a href="from.zyym@gmail.com">from.zyym@gmail.com</a></p>
+                    </address>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</footer>
+<!-- SCRIPTS -->
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
