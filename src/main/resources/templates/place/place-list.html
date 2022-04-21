@@ -73,7 +73,7 @@
             <tr>
                 <th>Название</th>
                 <th>Долгота</th>
-                <th>Ширина</th>
+                <th>Широта</th>
             </tr>
             </thead>
             <tbody>
@@ -82,9 +82,9 @@
                 <td th:text="${place.longitude}"></td>
                 <td th:text="${place.width}"></td>
 
-                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{place-update/{name}(name=${place.name})}">
+                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{../place-update/{name}(name=${place.name})}">
                     Редактировать</a></td>
-                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{place-delete/{name}(name=${place.name})}">Удалить</a>
+                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{../place-delete/{name}(name=${place.name})}">Удалить</a>
                 </td>
 
             </tbody>

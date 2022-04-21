@@ -32,7 +32,12 @@ public class PlaceService {
     }
 
     public Place savePlace(Place place) throws Exception {
-        if (findById(place.getName()) != null) throw new Exception();
+       /* System.out.println(place);
+        if (findById(place.getName()) != null) {
+            System.out.println(place.getName());
+            System.out.println(findById(place.getName()));
+            throw new Exception();
+        }*/
         return placeRepository.save(place);
     }
 

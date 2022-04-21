@@ -29,8 +29,8 @@
 
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-nav-first">
-                    <li><a href="#home" class="smoothScroll">Главная</a></li>
-                    <li><a href="#about" class="smoothScroll">О нас</a></li>
+                    <li><a href="../#home" class="smoothScroll">Главная</a></li>
+                    <li><a href="../#about" class="smoothScroll">О нас</a></li>
                     <li><a href="/orders" class="smoothScroll">Поездки</a></li>
 
                     <!--Admins functions-->
@@ -227,56 +227,6 @@
 <script src="../js/bootstrap.min.js"></script>
 <script src="../js/owl.carousel.min.js"></script>
 <script src="../js/custom.js"></script>
-<script>function searchFunction() {
-    // Объявить переменные
-    var input, filter, table, tr, td, i, txtValue, k;
-    input = document.getElementById("myInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("example");
-    tr = table.getElementsByTagName("tr");
-    let th = tr[0].cells.length;
-
-    for (i = 0; i < tr.length; i++) {
-        for (k = 0; k < th; k++) {
-            td = tr[i].getElementsByTagName("td")[k];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                    break
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
-    }
-}
-
-function searchFunction2() {
-    // Объявить переменные
-    var input, filter, table, tr, td, i, txtValue, k;
-    input = document.getElementById("myInput2");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("example2");
-    tr = table.getElementsByTagName("tr");
-    let th = tr[0].cells.length;
-
-    for (i = 0; i < tr.length; i++) {
-        for (k = 0; k < th; k++) {
-            td = tr[i].getElementsByTagName("td")[k];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                    break
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
-    }
-}
-
 
 </script>
 </body>
