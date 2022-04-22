@@ -34,18 +34,23 @@
                     <li><a href="/orders" class="smoothScroll">Поездки</a></li>
 
                     <!--Admins functions-->
-                    <li  sec:authorize="hasRole('ROLE_ADMIN')"><a href="/users" class="smoothScroll">Пользователи</a></li >
-                    <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/fuels" class="smoothScroll">Топливо</a></li >
-                    <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/vehicles" class="smoothScroll">Транспорт</a></li >
-                    <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/places" class="smoothScroll">Локации</a></li >
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/users" class="smoothScroll">Пользователи</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/fuels" class="smoothScroll">Топливо</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/vehicles" class="smoothScroll">Транспорт</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/places" class="smoothScroll">Локации</a></li>
 
                     <!--Users functions-->
-                    <li  sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/user-tickets/{username}(username=${#httpServletRequest.remoteUser})}" class="smoothScroll">Мои билеты</a></li >
+                    <li sec:authorize="hasRole('ROLE_USER')"><a
+                            th:href="@{/user-tickets/{username}(username=${#httpServletRequest.remoteUser})}"
+                            class="smoothScroll">Мои билеты</a></li>
 
                     <!--Authorization and Logout-->
                     <li th:if="${#httpServletRequest.remoteUser}==null"><a th:href="@{/login}" class="smoothScroll">Войти</a>
                     </li>
-                    <li th:unless="${#httpServletRequest.remoteUser}==null"> <a href="javascript: document.logoutForm.submit()" role="menuitem"> Выйти</a>
+                    <li th:unless="${#httpServletRequest.remoteUser}==null"><a
+                            href="javascript: document.logoutForm.submit()" role="menuitem"> Выйти</a>
                     </li>
                     <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
                         <input hidden type="submit" value="Sign Out"/>
@@ -67,7 +72,7 @@
             <input type="text" id="myInput" class="myInput" onkeyup="searchFunction()" placeholder="Поиск...">
         </div>
         <div class="text-center">
-            <h3 class="col-xs-10 col-md-5 col-lg-6 col-xl-6 text-center" >Откуда</h3>
+            <h3 class="col-xs-10 col-md-5 col-lg-6 col-xl-6 text-center">Откуда</h3>
             <h3 class="col-xs-10 col-md-5 col-lg-6 col-xl-6 text-center">Куда</h3>
             <div class="col-lg-1 col-xl-1"></div>
             <select type="text" id="filterInput1" class="col-xs-10 col-md-7 col-lg-4 col-xl-4 form-select"
@@ -88,7 +93,9 @@
             <div class="col-lg-1 col-xl-1"></div>
         </div>
         <h2 class="col-xs-12 col-md-12 col-lg-12 col-xl-12 text-center">Рейсы</h2>
-        <div th:if="${#httpServletRequest.remoteUser} == null" class="col-xs-12 col-md-12 col-lg-12 col-xl-12 text-center">Авторизируйтесь и забронируйте место на интересующий
+        <div th:if="${#httpServletRequest.remoteUser} == null"
+             class="col-xs-12 col-md-12 col-lg-12 col-xl-12 text-center">Авторизируйтесь и забронируйте место на
+            интересующий
             рейс.
         </div>
         <table class="table table-striped table-hover table_sort" id="example">
@@ -121,8 +128,14 @@
                 <td sec:authorize="hasRole('ROLE_ADMIN')"><a
                         th:href="@{order-delete/{idOrder}(idOrder=${order.idOrder})}">Удалить</a>
                 </td>
-                <td sec:authorize="hasRole('ROLE_USER')"><a
-                        th:href="@{ticket-create/{idOrder}(idOrder=${order.idOrder})}">Забронировать место</a>
+                <td sec:authorize="hasRole('ROLE_USER')">
+                    <div th:if="${order.vehicle.numberOfSets - active[iter.index]}>0">
+                        <a th:href="@{ticket-create/{idOrder}/{username}(idOrder=${order.idOrder}, username=${#httpServletRequest.remoteUser})}">Забронировать
+                            место</a>
+                    </div>
+                    <div th:unless="${order.vehicle.numberOfSets - active[iter.index]}>0">
+                        Нет свободных мест
+                    </div>
                 </td>
 
             </tbody>

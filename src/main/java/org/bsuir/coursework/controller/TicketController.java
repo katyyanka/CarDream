@@ -38,7 +38,20 @@ public class TicketController {
         model.addAttribute("tickets", ticketList);
         model.addAttribute("oldTickets", archiveTicketList);
         model.addAttribute("username", id);
-        return "ticket/user-ticket-list.html";
+        return "ticket/user-ticket-list";
+    }
+
+    @GetMapping("/ticket-create/{order}/{username}")
+    public String findAll(@PathVariable("order") Integer order, @PathVariable("username") String username){
+
+        ticketService.reserve(order, username);
+        return "redirect: /../../../orders";
+    }
+
+    @GetMapping("ticket-delete/{id}")
+    public String deletePlace(@PathVariable("id") int id){
+        ticketService.deleteById(id);
+        return "redirect:/orders";
     }
 
    /* @GetMapping("/place-create")

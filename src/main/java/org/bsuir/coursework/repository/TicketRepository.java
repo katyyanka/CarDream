@@ -4,11 +4,14 @@ import org.bsuir.coursework.entity.Order;
 import org.bsuir.coursework.entity.Ticket;
 import org.bsuir.coursework.entity.TicketId;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
-public interface TicketRepository extends JpaRepository<Ticket, TicketId> {
+public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
     @Query(value = "SELECT * FROM `ticket` where ORDER_ID = ?1",
             nativeQuery = true)
@@ -30,6 +33,29 @@ public interface TicketRepository extends JpaRepository<Ticket, TicketId> {
                     "WHERE O.ID_ORDER = T.ORDER_ID AND O.DATETIME < CURRENT_TIMESTAMP AND T.USER_EMAIL = ?1 ",
             nativeQuery = true)
     List<Ticket> findAllArchiveTicketsForClient(String username);
+
+    @Query(value = "Select vehicle.number_of_sets" +
+            " FROM vehicle" +
+            " join orders" +
+            " on orders.driver_vehicle_number=vehicle.number" +
+            " where orders.id_order = ?1",
+            nativeQuery = true)
+    int howManySetsInOrderCar(int orderId);
+
+    @Query(value = "Select ticket.set" +
+            " FROM ticket" +
+            " join orders" +
+            " on orders.id_order=ticket.order_id" +
+            " where orders.id_order = ?1",
+            nativeQuery = true)
+    List<Integer> busySets(int orderId);
+
+    @Modifying
+    @Query(value = "Insert into ticket(USER_EMAIL, ORDER_ID,`SET`) " +
+            "value(:username, :orderId, :set)",
+            nativeQuery = true)
+    @Transactional
+    void reserve(@Param("username")String username, @Param("orderId") int orderId, @Param("set") int set);
 
 
 }

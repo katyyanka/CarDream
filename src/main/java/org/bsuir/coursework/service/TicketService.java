@@ -1,29 +1,31 @@
 package org.bsuir.coursework.service;
 
-import org.bsuir.coursework.entity.Place;
+import org.bsuir.coursework.entity.Order;
 import org.bsuir.coursework.entity.Ticket;
 import org.bsuir.coursework.entity.TicketId;
-import org.bsuir.coursework.repository.PlaceRepository;
+import org.bsuir.coursework.entity.User;
 import org.bsuir.coursework.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TicketService {
 
     final TicketRepository ticketRepository;
+    final UserService userService;
+    final OrderService orderService;
 
     @Autowired
-    public TicketService(TicketRepository ticketRepository) {
+    public TicketService(TicketRepository ticketRepository, UserService userService, OrderService orderService) {
         this.ticketRepository = ticketRepository;
+        this.userService = userService;
+        this.orderService = orderService;
     }
 
-    public Ticket findById(TicketId id) {
+    public Ticket findById(Integer id) {
         return ticketRepository.getOne(id);
     }
 
@@ -48,10 +50,37 @@ public class TicketService {
         return ticketRepository.save(ticket);
     }
 
-    public void deleteById(TicketId id) {
+    public void deleteById(int id) {
         ticketRepository.deleteById(id);
     }
 
-
+    private List<Integer> busySets(int id) {
+        return ticketRepository.busySets(id);
+    }
+    /**     BUILDER  HERE      */
+    public void reserve(int order, String username) {
+        int numberOfCarSets = ticketRepository.howManySetsInOrderCar(order);
+        List<Integer> busySets = busySets(order);
+        if (busySets.size() >= numberOfCarSets) {
+            return;
+        }
+        List<Integer> allSets = new ArrayList<>();
+        for (int i = 0; i < numberOfCarSets; i++) {
+            allSets.add(i + 1);
+        }
+        allSets.removeAll(busySets);
+        List<Integer> freeSets = allSets;
+        System.out.println(freeSets);
+        User user = userService.findById(username);
+        Order orderEntity = orderService.findById(order);
+        Ticket ticket = new Ticket();
+        ticket.newBuilder()
+                .setUser(user)
+                .setOrder(orderEntity)
+                .setSet(freeSets.get(0))
+                .build();
+        //ticketRepository.save(ticket);
+        ticketRepository.reserve(username,order,freeSets.get(0));
+    }
 
 }

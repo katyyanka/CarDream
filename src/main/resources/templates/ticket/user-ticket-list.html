@@ -94,8 +94,10 @@
                         <td th:text="${ticket.order.arrive.name}"></td>
                         <td th:text="${ticket.order.datetime}"></td>
 
-                        <td sec:authorize="hasRole('ROLE_USER')"><a
-                                href="#">Отменить</a></td>
+
+                        <td sec:authorize="hasRole('ROLE_USER')">
+                            <a th:href="@{../ticket-delete/{id}(id=${ticket.id})}">Отменить</a>
+                        </td>
 
                     </tbody>
                 </table>
@@ -139,7 +141,9 @@
                         <td th:text="${ticket.mark}"></td>
                         <td th:if="${ticket.status}">Явка</td>
                         <td th:unless="${ticket.status}">Неявка</td>
-
+                        <td sec:authorize="hasRole('ROLE_USER')">
+                            <a th:href="@{../ticket-estimate/{id}(id=${ticket.id})}">Оценить</a>
+                        </td>
                     </tbody>
                 </table>
             </div>
