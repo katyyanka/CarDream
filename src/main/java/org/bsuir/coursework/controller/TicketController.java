@@ -54,6 +54,35 @@ public class TicketController {
         return "redirect:/orders";
     }
 
+    @GetMapping("/ticket-update/{id}")
+    public String ticketUpdate(@PathVariable("id") Integer id, Model model){
+        Ticket ticket = ticketService.findById(id);
+        model.addAttribute("ticket", ticket);
+        List<Integer> freeSets = ticketService.getFreeSetsByTicketId(id);
+        model.addAttribute("freeSets", freeSets);
+
+        return "ticket/ticket-update";
+    }
+
+    @PostMapping("/ticket-update")
+    public String estimateTicketForm(Ticket ticket){
+        ticketService.saveTicket(ticket);
+        return "redirect:/orders";
+    }
+
+    @GetMapping("/ticket-estimate/{id}")
+    public String ticketEstimate(@PathVariable("id") Integer id, Model model){
+        Ticket ticket = ticketService.findById(id);
+        model.addAttribute("ticket", ticket);
+        return "ticket/ticket-estimate";
+    }
+
+    @PostMapping("/ticket-estimate")
+    public String updatePlace(Ticket ticket){
+        ticketService.saveTicket(ticket);
+        return "redirect:/orders";
+    }
+
    /* @GetMapping("/place-create")
     public String createPlaceForm(Place place){
         return "place/place-create.html";

@@ -18,7 +18,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     List<Ticket> findAllTicketsForOrder(int orderId);
 
     @Query(value =
-            "SELECT T.id, T.USER_EMAIL, T.ORDER_ID, T.SET, T.COMMENT, T.MARK, T.STATUS " +
+            "SELECT T.id, T.USER_EMAIL, T.ORDER_ID, T.SEET, T.COMMENT, T.MARK, T.STATUS " +
                     "FROM Ticket as T " +
                     "JOIN Orders AS O " +
                     "WHERE O.ID_ORDER = T.ORDER_ID AND O.DATETIME >= CURRENT_TIMESTAMP  AND  T.USER_EMAIL = ?1 ; ",
@@ -26,7 +26,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     List<Ticket> findAllActiveTicketsForClient(String username);
 
     @Query(value =
-            "SELECT T.id, T.USER_EMAIL, T.ORDER_ID, T.SET, T.COMMENT, T.MARK, T.STATUS " +
+            "SELECT T.id, T.USER_EMAIL, T.ORDER_ID, T.SEET, T.COMMENT, T.MARK, T.STATUS " +
                     "FROM Ticket as T " +
                     "JOIN Orders AS O " +
                     "ON T.ORDER_ID = O.ID_ORDER " +
@@ -42,7 +42,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
             nativeQuery = true)
     int howManySetsInOrderCar(int orderId);
 
-    @Query(value = "Select ticket.set" +
+    @Query(value = "Select ticket.seet" +
             " FROM ticket" +
             " join orders" +
             " on orders.id_order=ticket.order_id" +
@@ -51,7 +51,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     List<Integer> busySets(int orderId);
 
     @Modifying
-    @Query(value = "Insert into ticket(USER_EMAIL, ORDER_ID,`SET`) " +
+    @Query(value = "Insert into ticket(USER_EMAIL, ORDER_ID,`SEET`) " +
             "value(:username, :orderId, :set)",
             nativeQuery = true)
     @Transactional

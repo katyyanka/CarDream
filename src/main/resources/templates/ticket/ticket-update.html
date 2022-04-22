@@ -11,7 +11,6 @@
     <link rel="stylesheet" th:href="@{../styles/templatemo-style.css}">
 </head>
 <body>
-<!--NAVIGATION-->
 <div>
     <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
         <div class="container">
@@ -27,17 +26,13 @@
                     <li><a href="/orders" class="smoothScroll">Поездки</a></li>
 
                     <!--Admins functions-->
-                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/users" class="smoothScroll">Пользователи</a>
-                    </li>
-                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/fuels" class="smoothScroll">Топливо</a></li>
-                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/vehicles" class="smoothScroll">Транспорт</a>
-                    </li>
-                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/places" class="smoothScroll">Локации</a></li>
+                    <li  sec:authorize="hasRole('ROLE_ADMIN')"><a href="/users" class="smoothScroll">Пользователи</a></li >
+                    <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/fuels" class="smoothScroll">Топливо</a></li >
+                    <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/vehicles" class="smoothScroll">Транспорт</a></li >
+                    <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/places" class="smoothScroll">Локации</a></li >
 
                     <!--Users functions-->
-                    <li sec:authorize="hasRole('ROLE_USER')"><a
-                            th:href="@{/user-tickets/{username}(username=${#httpServletRequest.remoteUser})}"
-                            class="smoothScroll">Мои билеты</a></li>
+                    <li  sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/user-tickets/{username}(username=${#httpServletRequest.remoteUser})}" class="smoothScroll">Мои билеты</a></li >
 
                     <!--Authorization and Logout-->
                     <li th:if="${#httpServletRequest.remoteUser}==null"><a href="/login" class="smoothScroll">Войти</a>
@@ -68,42 +63,24 @@
 
         <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
         <div class="form-group col-md-4 col-sm-4 col-xs-12 col-lg-4">
-            <input type="text" class="col-md-4 col-sm-4 col-xs-12 col-lg-4 form-control" id="name" th:field="*{id}"
-                   readonly required>
+            <input type="text" class="col-md-4 col-sm-4 col-xs-12 col-lg-4 form-control" id="name" th:field="*{id}" readonly
+                   required>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
 
-        <div class="form-group col-md-12 col-sm-12 col-xs-12 col-lg-12">
-            <br>
-            <p></p>
-        </div>
 
-        <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4 text-center"></div>
-        <div class="rating-area" style="margin-left: 40%; margin-right: 40%">
-            <input type="radio" id="star-1" th:field="${ticket.mark}" name="rating" value="1">
-            <label for="star-1" title="Оценка «1»"></label>
-            <input type="radio" id="star-2" th:field="${ticket.mark}" name="rating" value="2">
-            <label for="star-2" title="Оценка «2»"></label>
-            <input type="radio" id="star-3" th:field="${ticket.mark}" name="rating" value="3">
-            <label for="star-3" title="Оценка «3»"></label>
-            <input type="radio" id="star-4" th:field="${ticket.mark}" name="rating" value="4">
-            <label for="star-4" title="Оценка «4»"></label>
-            <input type="radio" id="star-5" th:field="${ticket.mark}" name="rating" value="5">
-            <label for="star-5" title="Оценка «5»"></label>
-        </div>
-        <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
+        <div class="form-group col-md-12 col-sm-12 col-xs-12 col-lg-12"><br>
+            <p></p></div>
 
-        <div class="form-group col-md-12 col-sm-12 col-xs-12 col-lg-12">
-            <br>
-        </div>
-
-        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 text-center">Комментарий</div>
 
         <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
         <div class="form-group col-md-4 col-sm-4 col-xs-12 col-lg-4">
-            <textarea class="form-control text-area text-box multi-line" th:field="*{comment}"
-                      data-val="true" data-val-length="Maximum = 999 characters"
-                      data-val-length-max="2045" id="info" name="info" cols="45" rows="4"></textarea>
+            <select class="form-select" th:field="*{set}">
+                <option th:value="*{set}" th:text="*{set}" selected></option>
+                <div th:each="us : ${freeSets}">
+                    <option th:value="${us}" th:text="${us}"></option>
+                </div>
+            </select>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
 
@@ -111,7 +88,7 @@
             <p></p></div>
 
         <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
-        <input type="submit" value="Оценить"
+        <input type="submit" value="Обновить"
                class="btn btn-primary col-md-4 col-sm-4 col-xs-12 col-lg-4">
         <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
 

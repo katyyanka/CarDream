@@ -3,11 +3,8 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <title>Туда-Сюда</title>
-    <link rel="shortcut icon" type="image/png" href="16.png"/>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
     <link rel="stylesheet" th:href="@{../styles/style.css}"/>
-
     <script th:src="@{../js/script_sorting.js}"></script>
     <script th:src="@{../js/searching.js}"></script>
     <link rel="stylesheet" th:href="@{/styles/bootstrap.min.css}">
@@ -25,20 +22,19 @@
 
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-nav-first">
-                    <li><a href="./" class="smoothScroll">Главная</a></li>
-                    <li><a href="../" class="smoothScroll">О нас</a></li>
-                    <li><a href="" class="smoothScroll">Поездки</a></li>
+                    <li><a href="../#home" class="smoothScroll">Главная</a></li>
+                    <li><a href="../#about" class="smoothScroll">О нас</a></li>
+                    <li><a href="/orders" class="smoothScroll">Поездки</a></li>
 
                     <!--Admins functions-->
-                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/users" class="smoothScroll">Пользователи</a>
-                    </li>
-                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/fuels" class="smoothScroll">Топливо</a></li>
-                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/vehicles" class="smoothScroll">Транспорт</a>
-                    </li>
-                    <li sec:authorize="hasRole('ROLE_USER')"><a href="/" class="smoothScroll">Мои заказы</a>
-                    </li>
-                    <li sec:authorize="hasRole('ROLE_USER')"><a href="/" class="smoothScroll">Профиль</a>
-                    </li>
+                    <li  sec:authorize="hasRole('ROLE_ADMIN')"><a href="/users" class="smoothScroll">Пользователи</a></li >
+                    <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/fuels" class="smoothScroll">Топливо</a></li >
+                    <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/vehicles" class="smoothScroll">Транспорт</a></li >
+                    <li   sec:authorize="hasRole('ROLE_ADMIN')"><a href="/places" class="smoothScroll">Локации</a></li >
+
+                    <!--Users functions-->
+                    <li  sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/user-tickets/{username}(username=${#httpServletRequest.remoteUser})}" class="smoothScroll">Мои билеты</a></li >
+
                     <!--Authorization and Logout-->
                     <li th:if="${#httpServletRequest.remoteUser}==null"><a href="/login" class="smoothScroll">Войти</a>
                     </li>
@@ -95,6 +91,9 @@
                         <td th:text="${ticket.order.datetime}"></td>
 
 
+                        <td sec:authorize="hasRole('ROLE_USER')">
+                            <a th:href="@{../ticket-update/{id}(id=${ticket.id})}">Сменить место</a>
+                        </td>
                         <td sec:authorize="hasRole('ROLE_USER')">
                             <a th:href="@{../ticket-delete/{id}(id=${ticket.id})}">Отменить</a>
                         </td>

@@ -25,6 +25,7 @@ public class Ticket {
 
     int mark;
 
+    @Column(name = "seet")
     int set;
 
     boolean status;

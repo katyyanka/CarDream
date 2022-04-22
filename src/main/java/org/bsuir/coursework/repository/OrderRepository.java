@@ -20,4 +20,8 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
             nativeQuery = true)
     int countAllById(int id);
 
+    @Query(value = "SELECT ORDER_ID FROM ticket WHERE ID = ?1 ",
+            nativeQuery = true)
+    int getOrderByTicketId(int ticketId);
+
 }

@@ -78,4 +78,8 @@ public class OrderService {
         }
         return countOfTickets;
     }
+
+    public int getOrderByTicketId(int ticketId){
+        return orderRepository.getOrderByTicketId(ticketId);
+    }
 }

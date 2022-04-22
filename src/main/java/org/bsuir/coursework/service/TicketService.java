@@ -45,8 +45,7 @@ public class TicketService {
         return ticketRepository.findAllArchiveTicketsForClient(username);
     }
 
-
-    public Ticket savePlace(Ticket ticket) throws Exception {
+    public Ticket saveTicket(Ticket ticket) {
         return ticketRepository.save(ticket);
     }
 
@@ -59,10 +58,22 @@ public class TicketService {
     }
     /**     BUILDER  HERE      */
     public void reserve(int order, String username) {
+        List<Integer> freeSets = getFreeSets(order);
+        User user = userService.findById(username);
+        Order orderEntity = orderService.findById(order);
+        Ticket ticket = Ticket.newBuilder()
+                .setUser(user)
+                .setOrder(orderEntity)
+                .setSet(freeSets.get(0))
+                .build();
+        ticketRepository.reserve(username,order,freeSets.get(0));
+    }
+
+    public List<Integer> getFreeSets(int order){
         int numberOfCarSets = ticketRepository.howManySetsInOrderCar(order);
         List<Integer> busySets = busySets(order);
         if (busySets.size() >= numberOfCarSets) {
-            return;
+            return null;
         }
         List<Integer> allSets = new ArrayList<>();
         for (int i = 0; i < numberOfCarSets; i++) {
@@ -70,17 +81,12 @@ public class TicketService {
         }
         allSets.removeAll(busySets);
         List<Integer> freeSets = allSets;
-        System.out.println(freeSets);
-        User user = userService.findById(username);
-        Order orderEntity = orderService.findById(order);
-        Ticket ticket = new Ticket();
-        ticket.newBuilder()
-                .setUser(user)
-                .setOrder(orderEntity)
-                .setSet(freeSets.get(0))
-                .build();
-        //ticketRepository.save(ticket);
-        ticketRepository.reserve(username,order,freeSets.get(0));
+        return freeSets;
+    }
+
+    public List<Integer> getFreeSetsByTicketId(int id){
+        int order = orderService.getOrderByTicketId(id);
+        return getFreeSets(order);
     }
 
 }
