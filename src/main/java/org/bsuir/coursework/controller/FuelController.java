@@ -27,12 +27,12 @@ public class FuelController {
     public String findAll(Model model){
         List<Fuel> fuels = fuelService.findAll();
         model.addAttribute("fuels", fuels);
-        return "fuel/fuel-list.html";
+        return "fuel/fuel-list";
     }
 
     @GetMapping("/fuel-create")
     public String createFuelForm(Fuel fuel){
-        return "fuel/fuel-create.html";
+        return "fuel/fuel-create";
     }
 
     @PostMapping("/fuel-create")

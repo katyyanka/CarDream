@@ -105,15 +105,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="order : ${orders}">
+            <tr th:each="order, iter : ${orders}">
                 <td><a th:text="${order.idOrder}" th:href="@{/tickets/{idOrder}(idOrder=${order.idOrder})}"></a></td>
                 <td th:text="${order.departure.name}"></td>
                 <td th:text="${order.arrive.name}"></td>
                 <td th:text="${order.datetime}"></td>
                 <td th:text="${order.price}"></td>
-                <td th:text="${order.user.username}"></td>
+                <td th:text="${order.vehicle.user.username}"></td>
                 <td th:text="${order.vehicle.number}"></td>
-                <td th:text="${order.vehicle.numberOfSets - order.occupiedPlaces}"></td>
+                <td th:text="${order.vehicle.numberOfSets - active[iter.index]}"></td>
 
                 <td sec:authorize="hasRole('ROLE_ADMIN')"><a
                         th:href="@{order-update/{idOrder}(idOrder=${order.idOrder})}">
@@ -156,16 +156,16 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="order, iter : ${old_orders}">
+            <tr th:each="order, ite : ${old_orders}">
                 <td><a th:text="${order.idOrder}" th:href="@{/tickets/{idOrder}(idOrder=${order.idOrder})}"></a></td>
                 <td th:text="${order.departure.name}"></td>
                 <td th:text="${order.arrive.name}"></td>
                 <td th:text="${order.datetime}"></td>
                 <td th:text="${order.price}"></td>
-                <td th:text="${order.user.username}"></td>
+                <td th:text="${order.vehicle.user.username}"></td>
                 <td th:text="${order.vehicle.number}"></td>
-                <td th:text="${order.vehicle.numberOfSets - order.occupiedPlaces}"></td>
-                <td th:text="${@thymeCeil.ceil((order.price*order.occupiedPlaces) - (distances[iter.index] / 100 * order.vehicle.fuelConsumptionPer100Kilometers
+                <td th:text="${order.vehicle.numberOfSets - archive[ite.index]}"></td>
+                <td th:text="${@thymeCeil.ceil((order.price*archive[ite.index]) - (distances[ite.index] / 100 * order.vehicle.fuelConsumptionPer100Kilometers
                 * order.vehicle.fuel.price))}"></td>
                 <td th:text="Download"></td>
 

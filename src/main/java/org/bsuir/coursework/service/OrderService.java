@@ -33,10 +33,10 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public Order savePlace(Order order) throws Exception {
+    public Order saveOrder(Order order)  {
         return orderRepository.save(order);
     }
-    public Order updatePlace(Order order) {
+    public Order updateOrder(Order order) {
         return orderRepository.save(order);
     }
 
@@ -54,5 +54,28 @@ public class OrderService {
             distances.add(PlaceService.distanceBetweenCities(order.getDeparture(), order.getArrive()));
         }
         return distances;
+    }
+
+    public int countAllById(int id){
+        return orderRepository.countAllById(id);
+    }
+
+
+    public List<Integer> countAllByIdArchive(){
+        ArrayList<Integer> countOfTickets = new ArrayList<>();
+        List<Order> orders = findAllOlderThanNow();
+        for (Order order: orders) {
+            countOfTickets.add(countAllById(order.getIdOrder()));
+        }
+        return countOfTickets;
+    }
+
+    public List<Integer> countAllByIdActive(){
+        ArrayList<Integer> countOfTickets = new ArrayList<>();
+        List<Order> orders = findAll();
+        for (Order order: orders) {
+            countOfTickets.add(countAllById(order.getIdOrder()));
+        }
+        return countOfTickets;
     }
 }

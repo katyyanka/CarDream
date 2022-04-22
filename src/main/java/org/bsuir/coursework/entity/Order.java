@@ -17,9 +17,6 @@ public class Order {
     float price;
 
     @ManyToOne
-    @JoinColumn(name="driver_email")
-    User user;
-    @ManyToOne
     @JoinColumn(name="driver_vehicle_number")
     Vehicle vehicle;
     Timestamp datetime;
@@ -29,8 +26,6 @@ public class Order {
     @ManyToOne
     @JoinColumn(name="departure_place")
     Place departure;
-    @Column(name="occupied_places")
-    Integer occupiedPlaces;
     @OneToMany(mappedBy = "order")
     transient Set<Ticket> tickets;
 }

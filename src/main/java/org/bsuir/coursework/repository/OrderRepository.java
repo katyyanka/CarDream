@@ -16,4 +16,8 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
             nativeQuery = true)
     List<Order> findAllOlderThanNow();
 
+    @Query(value = "SELECT COUNT(*) FROM ticket JOIN Orders ON TICKET.ORDER_ID=ORDERS.ID_ORDER WHERE Orders.id_ORDER=?1",
+            nativeQuery = true)
+    int countAllById(int id);
+
 }
