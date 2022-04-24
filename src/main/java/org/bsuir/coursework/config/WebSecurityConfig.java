@@ -42,10 +42,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/images/**", "/js/**", "/styles/**",  "/", "/thanks-page" ).permitAll()
-                .antMatchers("/user-create", "/user-update/**", "/user-delete/**").hasRole("ADMIN")
+                .antMatchers("/images/**", "/js/**", "/styles/**", "/", "/thanks-page").permitAll()
+                .antMatchers("/user-create", "/user-update/**", "/user-delete/**",
+                        "/fuel-create", "/fuel-update/**", "/fuel-delete/**",
+                        "/place-create", "/place-update/**", "/place-delete/**",
+                        "/vehicle-create", "/vehicle-update/**", "/vehicle-delete/**"
+                        ).hasRole("ADMIN")
                 .antMatchers("/user-tickets/**").hasRole("USER")
-                .antMatchers("/users", "/vehicles", "/places", "/fuels").hasAnyRole("ADMIN", "DRIVER", "USER")
+                .antMatchers("/users", "/vehicles", "/places", "/fuels").hasAnyRole("ADMIN", "DRIVER")
                 .and()
                 .authorizeRequests()
                 .antMatchers("/registration", "/404", "/403", "/400", "/orders").permitAll()
@@ -57,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().permitAll()
                 .and()
                 .exceptionHandling().accessDeniedPage("/403")
-               ;
+        ;
     }
 
 }
