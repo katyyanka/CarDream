@@ -49,6 +49,10 @@ public class TicketService {
         return ticketRepository.save(ticket);
     }
 
+    public void updateStatus(int id){
+        ticketRepository.updateStatus(id);
+    }
+
     public void deleteById(int id) {
         ticketRepository.deleteById(id);
     }
@@ -61,11 +65,6 @@ public class TicketService {
         List<Integer> freeSets = getFreeSets(order);
         User user = userService.findById(username);
         Order orderEntity = orderService.findById(order);
-        Ticket ticket = Ticket.newBuilder()
-                .setUser(user)
-                .setOrder(orderEntity)
-                .setSet(freeSets.get(0))
-                .build();
         ticketRepository.reserve(username,order,freeSets.get(0));
     }
 

@@ -51,6 +51,17 @@ public class OrderController {
         return "order/order-list";
     }
 
+    @GetMapping("/driver-orders/{id}")
+    public String findAllForDriver(@PathVariable("id") String id, Model model){
+        List<Order> orders = orderService.findAllByDriver(id);
+        model.addAttribute("orders", orders);
+        List<Order> old_orders = orderService.findAllOldByDriver(id);
+        model.addAttribute("old_orders", old_orders);
+        List<Place> places = placeService.findAll();
+        model.addAttribute("places", places);
+        return "order/driver-order-list";
+    }
+
     @GetMapping("/order-create")
     public String createOrderForm(Order order, String datetimeLocal, Model model){
         List<Place> places = placeService.findAll();

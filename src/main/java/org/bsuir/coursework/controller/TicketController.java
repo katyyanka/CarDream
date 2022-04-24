@@ -64,6 +64,12 @@ public class TicketController {
         return "ticket/ticket-update";
     }
 
+    @GetMapping("/ticket-status/{order}/{id}")
+    public String ticketUpdateStatus(@PathVariable("id") Integer id,  @PathVariable("order") String order, Model model){
+        ticketService.updateStatus(id);
+        return "redirect:/tickets/"+order;
+    }
+
     @PostMapping("/ticket-update")
     public String estimateTicketForm(Ticket ticket){
         ticketService.saveTicket(ticket);

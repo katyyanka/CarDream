@@ -57,5 +57,12 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     @Transactional
     void reserve(@Param("username")String username, @Param("orderId") int orderId, @Param("set") int set);
 
+    @Modifying
+    @Query(value = "UPDATE ticket" +
+            " set ticket.STATUS = 1" +
+            " where ticket.id = ?1",
+            nativeQuery = true)
+    @Transactional
+    void updateStatus(int ticket);
 
 }

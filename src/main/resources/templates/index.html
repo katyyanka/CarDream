@@ -3,13 +3,9 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <title>Туда-Сюда</title>
-    <link rel="shortcut icon" type="image/png" href="16.png"/>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-    <link rel="stylesheet" th:href="@{styles/style.css}"/>
-    <noscript>
-        <link rel="stylesheet" th:href="@{styles/noscript.css}"/>
-    </noscript>
+    <link rel="stylesheet" th:href="@{styles/style.css}" href="styles/style.css"/>
+
     <link rel="stylesheet" href="styles/bootstrap.min.css">
     <link rel="stylesheet" href="styles/font-awesome.min.css">
     <link rel="stylesheet" href="styles/owl.carousel.css">
@@ -44,6 +40,9 @@
 
                     <!--Users functions-->
                     <li  sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/user-tickets/{username}(username=${#httpServletRequest.remoteUser})}" class="smoothScroll">Мои билеты</a></li >
+
+                    <!--Driver functions-->
+                    <li  sec:authorize="hasRole('ROLE_DRIVER')"><a th:href="@{/driver-orders/{username}(username=${#httpServletRequest.remoteUser})}" class="smoothScroll">Мои рейсы</a></li >
 
                     <!--Authorization and Logout-->
                     <li th:if="${#httpServletRequest.remoteUser}==null"><a th:href="@{/login}" class="smoothScroll">Войти</a>

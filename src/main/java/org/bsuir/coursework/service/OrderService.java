@@ -82,4 +82,12 @@ public class OrderService {
     public int getOrderByTicketId(int ticketId){
         return orderRepository.getOrderByTicketId(ticketId);
     }
+
+    public List<Order> findAllByDriver(String driver) {
+        return orderRepository.findAllByDriver(driver);
+    }
+    public List<Order> findAllOldByDriver(String driver) {
+        return orderRepository.findAllOldByDriver(driver);
+    }
+
 }
