@@ -88,4 +88,10 @@ public class TicketService {
         return getFreeSets(order);
     }
 
+    public Integer findCountNegativeTicketsForOrder(int id){
+        return ticketRepository.findCountNegativeTicketsForOrder(id);
+    }
+    public Integer findCountPositiveTicketsForOrder(int id){
+        return ticketRepository.findCountPositiveTicketsForOrder(id);
+    }
 }

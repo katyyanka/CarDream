@@ -26,6 +26,21 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     List<Ticket> findAllActiveTicketsForClient(String username);
 
     @Query(value =
+            "SELECT COUNT(*) " +
+                    "FROM Ticket as T " +
+                    "JOIN Orders AS O " +
+                    "WHERE O.ID_ORDER = T.ORDER_ID AND T.STATUS = 0 AND  T.ORDER_ID = ?1 ; ",
+            nativeQuery = true)
+    Integer findCountNegativeTicketsForOrder(Integer id);
+    @Query(value =
+            "SELECT COUNT(*) " +
+                    "FROM Ticket as T " +
+                    "JOIN Orders AS O " +
+                    "WHERE O.ID_ORDER = T.ORDER_ID AND T.STATUS = 1 AND  T.ORDER_ID = ?1 ; ",
+            nativeQuery = true)
+    Integer findCountPositiveTicketsForOrder(Integer id);
+
+    @Query(value =
             "SELECT T.id, T.USER_EMAIL, T.ORDER_ID, T.SEET, T.COMMENT, T.MARK, T.STATUS " +
                     "FROM Ticket as T " +
                     "JOIN Orders AS O " +

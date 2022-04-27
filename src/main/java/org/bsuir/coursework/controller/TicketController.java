@@ -28,6 +28,10 @@ public class TicketController {
         List<Ticket> ticketList = ticketService.findAllTicketsForOrder(id);
         model.addAttribute("tickets", ticketList);
         model.addAttribute("id", id);
+        Integer positive = ticketService.findCountPositiveTicketsForOrder(id);
+        Integer negative = ticketService.findCountNegativeTicketsForOrder(id);
+        model.addAttribute("positive", positive);
+        model.addAttribute("negative", negative);
         return "ticket/ticket-list.html";
     }
 

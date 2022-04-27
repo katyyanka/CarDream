@@ -1,10 +1,14 @@
 package org.bsuir.coursework.controller;
 
+import com.itextpdf.text.DocumentException;
 import org.bsuir.coursework.entity.Order;
 import org.bsuir.coursework.entity.Place;
+import org.bsuir.coursework.entity.Ticket;
 import org.bsuir.coursework.entity.Vehicle;
+import org.bsuir.coursework.helpers.OrderDocument;
 import org.bsuir.coursework.service.OrderService;
 import org.bsuir.coursework.service.PlaceService;
+import org.bsuir.coursework.service.TicketService;
 import org.bsuir.coursework.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +20,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -25,12 +31,14 @@ public class OrderController {
     private final OrderService orderService;
     private final PlaceService placeService;
     private final VehicleService vehicleService;
+    private final TicketService ticketService;
 
     @Autowired
-    public OrderController(OrderService orderService, PlaceService placeService, VehicleService vehicleService) {
+    public OrderController(OrderService orderService, PlaceService placeService, VehicleService vehicleService, TicketService ticketService) {
         this.orderService = orderService;
         this.placeService = placeService;
         this.vehicleService = vehicleService;
+        this.ticketService = ticketService;
     }
 
 
@@ -106,5 +114,18 @@ public class OrderController {
         order.setDatetime(Timestamp.valueOf(datetimeLocal.replace("T", " ")));
         orderService.updateOrder(order);
         return "redirect:/orders";
+    }
+
+    @GetMapping("/order/{id}/pdf")
+    public void exportToPDF(@PathVariable("id") Integer id, HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=orderInfo.pdf";
+        response.setHeader(headerKey, headerValue);
+
+        List<Ticket> tickets = ticketService.findAllTicketsForOrder(id);
+
+        OrderDocument exporter = new OrderDocument(tickets);
+        exporter.export(response);
     }
 }
