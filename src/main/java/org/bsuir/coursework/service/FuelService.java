@@ -1,6 +1,6 @@
 package org.bsuir.coursework.service;
 
-import org.bsuir.coursework.entity.Fuel;
+import org.bsuir.coursework.model.Fuel;
 import org.bsuir.coursework.repository.FuelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

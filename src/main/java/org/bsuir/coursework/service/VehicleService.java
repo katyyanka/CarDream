@@ -1,6 +1,6 @@
 package org.bsuir.coursework.service;
 
-import org.bsuir.coursework.entity.Vehicle;
+import org.bsuir.coursework.model.Vehicle;
 import org.bsuir.coursework.repository.UserRepository;
 import org.bsuir.coursework.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;

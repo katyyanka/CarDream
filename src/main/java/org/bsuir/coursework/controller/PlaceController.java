@@ -1,6 +1,6 @@
 package org.bsuir.coursework.controller;
 
-import org.bsuir.coursework.entity.Place;
+import org.bsuir.coursework.model.Place;
 import org.bsuir.coursework.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,9 +25,6 @@ public class PlaceController {
     @GetMapping("/places")
     public String findAll(Model model){
         return findPaginated(1, model);
-       /* List<Place> places = placeService.findAll();
-        model.addAttribute("places", places);
-        return "place/place-list.html";*/
     }
 
     @GetMapping("/place-create")

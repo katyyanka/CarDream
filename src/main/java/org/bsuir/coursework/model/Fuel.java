@@ -1,4 +1,4 @@
-package org.bsuir.coursework.entity;
+package org.bsuir.coursework.model;
 
 import lombok.Data;
 
@@ -6,12 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
 @Data
-@Table(name="place")
-public class Place {
+@Entity
+@Table(name="fuel")
+public class Fuel {
     @Id
     String name;
-    String longitude;
-    String width;
+    Float price;
 }

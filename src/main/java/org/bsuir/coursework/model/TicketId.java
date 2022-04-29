@@ -1,10 +1,7 @@
-package org.bsuir.coursework.entity;
+package org.bsuir.coursework.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 

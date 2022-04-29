@@ -1,8 +1,6 @@
 package org.bsuir.coursework.controller;
 
-import org.bsuir.coursework.entity.Place;
-import org.bsuir.coursework.entity.Ticket;
-import org.bsuir.coursework.service.PlaceService;
+import org.bsuir.coursework.model.Ticket;
 import org.bsuir.coursework.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -89,7 +87,8 @@ public class TicketController {
 
     @PostMapping("/ticket-estimate")
     public String updatePlace(Ticket ticket){
-        ticketService.saveTicket(ticket);
+        ticketService.updateComment(ticket.getComment(), ticket.getId());
+        ticketService.updateMark(ticket.getMark(), ticket.getId());
         return "redirect:/orders";
     }
 

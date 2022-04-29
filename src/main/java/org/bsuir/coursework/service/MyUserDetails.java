@@ -1,9 +1,7 @@
 package org.bsuir.coursework.service;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.bsuir.coursework.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.bsuir.coursework.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,9 +1,7 @@
 package org.bsuir.coursework.controller;
 
-import org.bsuir.coursework.entity.Fuel;
-import org.bsuir.coursework.entity.User;
+import org.bsuir.coursework.model.Fuel;
 import org.bsuir.coursework.service.FuelService;
-import org.bsuir.coursework.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,10 +1,10 @@
 package org.bsuir.coursework.controller;
 
 import com.itextpdf.text.DocumentException;
-import org.bsuir.coursework.entity.Order;
-import org.bsuir.coursework.entity.Place;
-import org.bsuir.coursework.entity.Ticket;
-import org.bsuir.coursework.entity.Vehicle;
+import org.bsuir.coursework.model.Order;
+import org.bsuir.coursework.model.Place;
+import org.bsuir.coursework.model.Ticket;
+import org.bsuir.coursework.model.Vehicle;
 import org.bsuir.coursework.helpers.OrderDocument;
 import org.bsuir.coursework.service.OrderService;
 import org.bsuir.coursework.service.PlaceService;
@@ -124,8 +124,11 @@ public class OrderController {
         response.setHeader(headerKey, headerValue);
 
         List<Ticket> tickets = ticketService.findAllTicketsForOrder(id);
-
-        OrderDocument exporter = new OrderDocument(tickets);
+        Order order = orderService.findById(id);
+        OrderDocument exporter = new OrderDocument(
+                tickets,
+                order
+        );
         exporter.export(response);
     }
 }

@@ -1,6 +1,6 @@
 package org.bsuir.coursework.repository;
 
-import org.bsuir.coursework.entity.User;
+import org.bsuir.coursework.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

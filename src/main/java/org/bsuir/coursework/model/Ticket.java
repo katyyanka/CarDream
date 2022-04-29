@@ -1,4 +1,4 @@
-package org.bsuir.coursework.entity;
+package org.bsuir.coursework.model;
 
 import lombok.Data;
 

@@ -1,8 +1,6 @@
 package org.bsuir.coursework.repository;
 
-import org.bsuir.coursework.entity.Order;
-import org.bsuir.coursework.entity.Ticket;
-import org.bsuir.coursework.entity.TicketId;
+import org.bsuir.coursework.model.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -79,5 +77,21 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
             nativeQuery = true)
     @Transactional
     void updateStatus(int ticket);
+
+    @Modifying
+    @Query(value = "UPDATE ticket" +
+            " set ticket.Comment = ?1" +
+            " where ticket.id = ?2",
+            nativeQuery = true)
+    @Transactional
+    void updateComment( String comment, int ticket);
+
+    @Modifying
+    @Query(value = "UPDATE ticket" +
+            " set ticket.mark = ?1" +
+            " where ticket.id = ?2",
+            nativeQuery = true)
+    @Transactional
+    void updateMark( int mark, int ticket);
 
 }

@@ -1,8 +1,8 @@
 package org.bsuir.coursework.controller;
 
-import org.bsuir.coursework.entity.Fuel;
-import org.bsuir.coursework.entity.User;
-import org.bsuir.coursework.entity.Vehicle;
+import org.bsuir.coursework.model.Fuel;
+import org.bsuir.coursework.model.User;
+import org.bsuir.coursework.model.Vehicle;
 import org.bsuir.coursework.service.FuelService;
 import org.bsuir.coursework.service.UserService;
 import org.bsuir.coursework.service.VehicleService;

@@ -1,13 +1,8 @@
 package org.bsuir.coursework.service;
 
-import org.bsuir.coursework.entity.Order;
-import org.bsuir.coursework.entity.Place;
+import org.bsuir.coursework.model.Order;
 import org.bsuir.coursework.repository.OrderRepository;
-import org.bsuir.coursework.repository.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

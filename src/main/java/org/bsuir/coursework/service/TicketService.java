@@ -1,9 +1,8 @@
 package org.bsuir.coursework.service;
 
-import org.bsuir.coursework.entity.Order;
-import org.bsuir.coursework.entity.Ticket;
-import org.bsuir.coursework.entity.TicketId;
-import org.bsuir.coursework.entity.User;
+import org.bsuir.coursework.model.Order;
+import org.bsuir.coursework.model.Ticket;
+import org.bsuir.coursework.model.User;
 import org.bsuir.coursework.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +48,7 @@ public class TicketService {
         return ticketRepository.save(ticket);
     }
 
-    public void updateStatus(int id){
+    public void updateStatus(int id) {
         ticketRepository.updateStatus(id);
     }
 
@@ -60,15 +59,18 @@ public class TicketService {
     private List<Integer> busySets(int id) {
         return ticketRepository.busySets(id);
     }
-    /**     BUILDER  HERE      */
+
+    /**
+     * BUILDER  HERE
+     */
     public void reserve(int order, String username) {
         List<Integer> freeSets = getFreeSets(order);
         User user = userService.findById(username);
         Order orderEntity = orderService.findById(order);
-        ticketRepository.reserve(username,order,freeSets.get(0));
+        ticketRepository.reserve(username, order, freeSets.get(0));
     }
 
-    public List<Integer> getFreeSets(int order){
+    public List<Integer> getFreeSets(int order) {
         int numberOfCarSets = ticketRepository.howManySetsInOrderCar(order);
         List<Integer> busySets = busySets(order);
         if (busySets.size() >= numberOfCarSets) {
@@ -83,15 +85,24 @@ public class TicketService {
         return freeSets;
     }
 
-    public List<Integer> getFreeSetsByTicketId(int id){
+    public List<Integer> getFreeSetsByTicketId(int id) {
         int order = orderService.getOrderByTicketId(id);
         return getFreeSets(order);
     }
 
-    public Integer findCountNegativeTicketsForOrder(int id){
+    public Integer findCountNegativeTicketsForOrder(int id) {
         return ticketRepository.findCountNegativeTicketsForOrder(id);
     }
-    public Integer findCountPositiveTicketsForOrder(int id){
+
+    public Integer findCountPositiveTicketsForOrder(int id) {
         return ticketRepository.findCountPositiveTicketsForOrder(id);
+    }
+
+    public void updateComment(String comment, int id) {
+        ticketRepository.updateComment(comment, id);
+    }
+
+    public void updateMark(int mark, int id) {
+        ticketRepository.updateMark(mark, id);
     }
 }

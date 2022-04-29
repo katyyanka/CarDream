@@ -1,6 +1,6 @@
 package org.bsuir.coursework.service;
 
-import org.bsuir.coursework.entity.Place;
+import org.bsuir.coursework.model.Place;
 import org.bsuir.coursework.repository.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,12 +32,7 @@ public class PlaceService {
     }
 
     public Place savePlace(Place place) throws Exception {
-       /* System.out.println(place);
-        if (findById(place.getName()) != null) {
-            System.out.println(place.getName());
-            System.out.println(findById(place.getName()));
-            throw new Exception();
-        }*/
+
         return placeRepository.save(place);
     }
 
