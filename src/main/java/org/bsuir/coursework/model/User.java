@@ -21,4 +21,33 @@ public class User {
     @OneToMany(mappedBy = "user")
     transient Set<Ticket> tickets;
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User() {
+
+    }
+
+    public User(String username, String password, String lastname, String name, Date birthday, String phone, String role, Set<Ticket> tickets) {
+        this.username = username;
+        this.password = password;
+        this.lastname = lastname;
+        this.name = name;
+        this.birthday = birthday;
+        this.phone = phone;
+        this.role = role;
+        this.tickets = tickets;
+    }
+
+    public User(String username, String password, String lastname, String name, Date birthday, String phone, String role) {
+        this.username = username;
+        this.password = password;
+        this.lastname = lastname;
+        this.name = name;
+        this.birthday = birthday;
+        this.phone = phone;
+        this.role = role;
+    }
 }

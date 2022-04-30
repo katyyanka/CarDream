@@ -70,11 +70,24 @@
         <div class="form-group col-md-12 col-sm-12 col-xs-12 col-lg-12"><br>
             <p></p></div>
 
+        <label class="required col-md-12 col-sm-12 col-xs-12 col-lg-12 text-center">Номер рейса</label>
+
+        <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
+        <div class="form-group col-md-4 col-sm-4 col-xs-12 col-lg-4">
+            <input class="form-control" th:field="*{idOrder}" required readonly>
+            </input>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
+
+
+        <div class="form-group col-md-12 col-sm-12 col-xs-12 col-lg-12"><br>
+            <p></p></div>
+
         <label class="required col-md-12 col-sm-12 col-xs-12 col-lg-12 text-center">Номер</label>
 
         <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4"></div>
         <div class="form-group col-md-4 col-sm-4 col-xs-12 col-lg-4">
-            <select class="form-select" th:field="*{vehicle}" required readonly>
+            <select class="form-select" th:field="*{vehicle}" required>
                 <div th:each="v : ${vehicles}">
                     <option th:value="${v.number}" th:text="${v.number}" selected></option>
                 </div>

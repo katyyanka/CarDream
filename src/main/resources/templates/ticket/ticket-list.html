@@ -141,11 +141,12 @@
         AnyChartStock.resizing.baseWidth = "1200px";
         AnyChartStock.resizing.baseHeight = "700px";
 */
+
         // create pie chart with passed data
         var chart = anychart.pie3d([
             ['Явка', [[${positive}]]],
             ['Неявка', [[${negative}]]],
-            ['Свободно мест', [[${tickets[0].order.vehicle.numberOfSets-positive-negative}]]]
+            ['Свободно мест', [[${order.vehicle.numberOfSets-positive-negative}]]]
         ]);
 
         // set chart title text settings

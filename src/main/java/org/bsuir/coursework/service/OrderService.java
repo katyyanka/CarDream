@@ -51,6 +51,16 @@ public class OrderService {
         return distances;
     }
 
+    public double financeResult(Integer id){
+        Order order = orderRepository.getOne(id);
+        Double distance = PlaceService.distanceBetweenCities(order.getDeparture(), order.getArrive());
+        Double financeResult = 0.0;
+        Double expenses = distance/100*order.getVehicle().getFuel().getPrice()*order.getVehicle().getFuelConsumptionPer100Kilometers();
+        Double income = (double) (orderRepository.countAllById(id) * order.getPrice());
+        financeResult = income - expenses;
+        return financeResult;
+    }
+
     public int countAllById(int id){
         return orderRepository.countAllById(id);
     }

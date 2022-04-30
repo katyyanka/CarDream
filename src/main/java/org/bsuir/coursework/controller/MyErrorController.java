@@ -9,36 +9,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
-//@Controller
+@Controller
 public class MyErrorController implements ErrorController {
 
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request) {
-        // get error status
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-
-        // TODO: log error details here
-
         if (status != null) {
             int statusCode = Integer.parseInt(status.toString());
-
-            // display specific error page
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
                 return "errors/404";
-            } /*else if (statusCode == HttpStatus.BAD_REQUEST.value()) {
+            } else if (statusCode == HttpStatus.BAD_REQUEST.value()) {
                 return "errors/400";
-            }*/ else if (statusCode == HttpStatus.FORBIDDEN.value()) {
+            } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
                 return "errors/403";
             }
         }
-
-        // display generic error
         return "errors/error";
     }
 
-   /* @GetMapping("/400")
-    public String badRequestErrorPage(){
-        return "/errors/400.html";
-    }*/
+    @GetMapping("/400")
+    public String badRequestErrorPage() {
+        return "/errors/400";
+    }
+
+    @GetMapping("/404")
+    public String pageNotFoundErrorPage() {
+        return "/errors/404";
+    }
 
 }

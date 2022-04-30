@@ -1,6 +1,8 @@
 package org.bsuir.coursework.controller;
 
+import org.bsuir.coursework.model.Order;
 import org.bsuir.coursework.model.Ticket;
+import org.bsuir.coursework.service.OrderService;
 import org.bsuir.coursework.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,10 +16,12 @@ import java.util.List;
 @Controller
 public class TicketController {
     private final TicketService ticketService;
+    private final OrderService orderService;
 
     @Autowired
-    public TicketController(TicketService ticketService) {
+    public TicketController(TicketService ticketService, OrderService orderService) {
         this.ticketService = ticketService;
+        this.orderService = orderService;
     }
 
 
@@ -26,11 +30,13 @@ public class TicketController {
         List<Ticket> ticketList = ticketService.findAllTicketsForOrder(id);
         model.addAttribute("tickets", ticketList);
         model.addAttribute("id", id);
+        Order order = orderService.findById(id);
+        model.addAttribute("order", order);
         Integer positive = ticketService.findCountPositiveTicketsForOrder(id);
         Integer negative = ticketService.findCountNegativeTicketsForOrder(id);
         model.addAttribute("positive", positive);
         model.addAttribute("negative", negative);
-        return "ticket/ticket-list.html";
+        return "ticket/ticket-list";
     }
 
     @GetMapping("/user-tickets/{id}")
@@ -91,39 +97,5 @@ public class TicketController {
         ticketService.updateMark(ticket.getMark(), ticket.getId());
         return "redirect:/orders";
     }
-
-   /* @GetMapping("/place-create")
-    public String createPlaceForm(Place place){
-        return "place/place-create.html";
-    }
-
-    @PostMapping("/place-create")
-    public String createPlace(Place place){
-        try {
-            placeService.savePlace(place);
-            return "redirect:/places";
-        } catch (Exception e) {
-            return "redirect:/400";
-        }
-    }
-
-    @GetMapping("place-delete/{id}")
-    public String deletePlace(@PathVariable("id") String id){
-        placeService.deleteById(id);
-        return "redirect:/places";
-    }
-
-    @GetMapping("/place-update/{id}")
-    public String updatePlaceForm(@PathVariable("id") String id, Model model){
-        Place place = placeService.findById(id);
-        model.addAttribute("place", place);
-        return "place/place-update.html";
-    }
-
-    @PostMapping("/place-update")
-    public String updatePlace(Place place){
-        placeService.updatePlace(place);
-        return "redirect:/places";
-    }*/
 
 }

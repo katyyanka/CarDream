@@ -56,7 +56,6 @@ public class PlaceService {
                 w2 = toRadian(second.getWidth()),
                 l2 = toRadian(second.getLongitude());
         Integer EARTH_RADIUS = 6373;
-        Double angularDifference = angularDifference(w1, l1, w2, l2)*EARTH_RADIUS;
 
         double coefficient = 1.25; // учтём, что по прямой никто не ездит
 
